@@ -1,48 +1,65 @@
-# Drupal CMS
+# Drupal CMS Dockerized
 
-Drupal CMS is a fast-moving open source product that enables site builders to easily create new Drupal sites and extend them with smart defaults, all using their browser.
+This repository provides a complete, containerized environment for running **Drupal CMS**. It simplifies local development and provides a solid foundation for container-based deployments.
 
-## Getting started
+The setup uses Docker Compose to orchestrate a multi-container environment featuring an Nginx web server, PHP-FPM, and a PostgreSQL database. The resulting Docker image is multi-platform, supporting both `amd64` (Intel/AMD) and `arm64` (Apple Silicon) architectures.
 
-If you want to use [DDEV](https://ddev.com) to run Drupal CMS locally, follow these instructions:
+---
+## Tech Stack
 
-1. Install DDEV following the [documentation](https://ddev.com/get-started/)
-2. Open the command line and `cd` to the root directory of this project
-3. Run the following commands:
-```shell
-ddev config --project-type=drupal11 --docroot=web
-ddev start
-ddev composer install
-ddev composer drupal:recipe-unpack
-ddev launch
-```
+* **Drupal CMS**: The latest version pulled by Composer.
+* **Web Server**: Nginx
+* **PHP**: 8.3-FPM
+* **Database**: PostgreSQL 16
 
-Drupal CMS has the same system requirements as Drupal core, so you can use your preferred setup to run it locally. [See the Drupal User Guide for more information](https://www.drupal.org/docs/user_guide/en/installation-chapter.html) on how to set up Drupal.
+---
+## Quick Start
 
-### Installation options
+### Prerequisites
 
-The Drupal CMS installer offers a list of features preconfigured with smart defaults. You will be able to customize whatever you choose, and add additional features, once you are logged in.
+* [Docker](https://docs.docker.com/get-docker/)
+* [Docker Compose](https://docs.docker.com/compose/install/)
 
-After the installer is complete, you will land on the dashboard.
+### Installation
 
-## Documentation
+1.  **Clone the repository:**
+    ```bash
+    git clone [https://github.com/ttrelvik/drupal-cms-docker.git](https://github.com/ttrelvik/drupal-cms-docker.git)
+    cd drupal-cms-docker
+    ```
 
-Coming soon ... [We're working on Drupal CMS specific documentation](https://www.drupal.org/project/drupal_cms/issues/3454527).
+2.  **Build and run the containers:**
+    For the first run, use the `--build` flag to build the custom Drupal image.
+    ```bash
+    docker-compose up --build -d
+    ```
+    To simply start the containers on subsequent runs, you can omit the `--build` flag:
+    ```bash
+    docker-compose up -d
+    ```
 
-In the meantime, learn more about managing a Drupal-based application in the [Drupal User Guide](https://www.drupal.org/docs/user_guide/en/index.html).
+3.  **Launch the Drupal Installer:**
+    Open your web browser and navigate to **[http://localhost:8080](http://localhost:8080)**.
 
-## Contributing
+4.  **Configure the Database:**
+    When you reach the "Database configuration" step of the Drupal installer, use the following credentials:
+    * **Database type**: `PostgreSQL`
+    * **Database name**: `drupal`
+    * **Database username**: `drupal`
+    * **Database password**: `drupal`
+    * **Host** (under "Advanced options"): `db`
+    * **Port** (under "Advanced options"): `5432`
 
-Drupal CMS is developed in the open on [Drupal.org](https://www.drupal.org). We are grateful to the community for reporting bugs and contributing fixes and improvements.
+Obviously replace those with something more secure when deploying.
 
-[Report issues in the queue](https://drupal.org/node/add/project-issue/drupal_cms), providing as much detail as you can. You can also join the #drupal-cms-support channel in the [Drupal Slack community](https://www.drupal.org/slack).
+Complete the rest of the installation steps to get your site up and running.
 
-Drupal CMS has adopted a [code of conduct](https://www.drupal.org/dcoc) that we expect all participants to adhere to.
+---
+## Project Structure
 
-To contribute to Drupal CMS development, see the [drupal_cms project](https://www.drupal.org/project/drupal_cms).
-
-## License
-
-Drupal CMS and all derivative works are licensed under the [GNU General Public License, version 2 or later](http://www.gnu.org/licenses/old-licenses/gpl-2.0.html).
-
-Learn about the [Drupal trademark and logo policy here](https://www.drupal.com/trademark).
+* `Dockerfile`: The blueprint for building the custom Drupal CMS image. It installs PHP, Nginx, Composer, and all necessary extensions.
+* `docker-compose.yml`: Defines and orchestrates the application (`drupal_cms`) and database (`db`) services.
+* `.docker/`: Contains supporting configuration files.
+    * `nginx/default.conf`: Nginx virtual host configuration.
+    * `entrypoint.sh`: A script that starts PHP-FPM and Nginx when the container launches.
+* `.gitignore`: Specifies files and directories to be excluded from version control.
