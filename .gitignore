@@ -1,0 +1,17 @@
+# Ignore Composer dependencies, Drupal's core, and contrib modules.
+/web/core
+/web/modules/contrib/
+/web/themes/contrib/
+/web/profiles/contrib/
+/vendor/
+
+# Ignore Drupal's generated files and user content.
+/web/sites/default/files/
+/web/sites/default/settings.php
+
+# Ignore DDEV and other local development tool files.
+.ddev/
+.idea/
+
+# Ignore OS-generated files.
+.DS_Store
