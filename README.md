@@ -24,7 +24,7 @@ The setup uses Docker Compose to orchestrate a multi-container environment featu
 
 1.  **Clone the repository:**
     ```bash
-    git clone [https://github.com/ttrelvik/drupal-cms-docker.git](https://github.com/ttrelvik/drupal-cms-docker.git)
+    git clone https://github.com/ttrelvik/drupal-cms-docker.git
     cd drupal-cms-docker
     ```
 
