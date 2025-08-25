@@ -1,16 +1,45 @@
-# Stage 1: Build the base with PHP and required extensions
-# We use the official PHP image for Debian Bookworm to align with DDEV's environment.
-FROM php:8.3-fpm-bookworm AS drupal_cms_base
+# Stage 1: Build the application using a PHP base to ensure OS consistency.
+FROM php:8.3-fpm-bookworm AS builder
 
-# Set environment variables
-ENV COMPOSER_ALLOW_SUPERUSER=1 \
-    PATH="/app/vendor/bin:$PATH"
+# Set the working directory for the build.
+WORKDIR /app
 
-# Install system dependencies needed for Drupal and common PHP extensions
+# Install system dependencies needed for Composer and its plugins.
 RUN apt-get update && apt-get install -y \
     git \
-    rsync \
     unzip \
+    libzip-dev \
+    libpng-dev \
+    libjpeg-dev \
+    libwebp-dev
+
+# Install the required PHP extensions.
+RUN docker-php-ext-configure gd --with-jpeg --with-webp
+RUN docker-php-ext-install -j$(nproc) gd zip
+
+# Install Composer globally.
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+# Run create-project to download the Drupal CMS project and its dependencies.
+RUN composer create-project drupal/cms .
+
+# After the project is created, add any additional modules you need.
+RUN composer require \
+    'drupal/samlauth:^3.11' \
+    'drush/drush:^13.6'
+
+# ---
+
+# Stage 2: Build the production environment base. This is kept separate for clarity and caching.
+FROM php:8.3-fpm-bookworm AS drupal_app_base
+
+# Set environment variables for the application.
+ENV PATH="/app/vendor/bin:$PATH"
+
+# Install system dependencies. Note: 'git' is not needed in the final image.
+RUN apt-get update && apt-get install -y \
+    unzip \
+    rsync \
     libzip-dev \
     libpng-dev \
     libjpeg-dev \
@@ -18,36 +47,31 @@ RUN apt-get update && apt-get install -y \
     libpq-dev \
     nginx
 
-# Install required PHP extensions for Drupal
+# Configure and install required PHP extensions for Drupal.
 RUN docker-php-ext-configure gd --with-jpeg --with-webp
 RUN docker-php-ext-install -j$(nproc) gd zip pdo pdo_pgsql opcache
 
-# Install Composer globally
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-
-# Set up the application directory
+# Set up the application directory.
 WORKDIR /app
 
 # ---
-# Stage 2: Build the final image with application code
-FROM drupal_cms_base AS final
 
-# Copy the entire project (including the 'web' directory) into the image
-COPY . .
+# Stage 3: Build the final image.
+FROM drupal_app_base AS final
 
-# Copy the Nginx configuration
+# Copy the fully built Drupal application from the 'builder' stage.
+COPY --from=builder /app .
+
+# Copy your custom Nginx configuration and entrypoint script.
 COPY .docker/nginx/default.conf /etc/nginx/sites-available/default
-
-# Copy the entrypoint script and make it executable
 COPY .docker/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
-# Set ownership to the web user to avoid permission issues
+# Set ownership to the web user to avoid permission issues.
 RUN chown -R www-data:www-data /app
 
-# Expose port 80 for Nginx
+# Expose port 80 for the Nginx web server.
 EXPOSE 80
 
-# Set the entrypoint
-ENTRYPOINT ["entrypoint.sh"]
-CMD ["nginx", "-g", "daemon off;"]
+# The entrypoint script will start PHP-FPM and Nginx.
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]

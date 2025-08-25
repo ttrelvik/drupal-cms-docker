@@ -1,7 +1,7 @@
 services:
   drupal_cms:
     build: .
-    image: ttrelvik/custom-drupalcms:1.0.0
+    image: drupal-cms-local:latest
     ports:
       - "8080:80"
     volumes:
