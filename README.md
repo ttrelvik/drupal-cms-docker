@@ -1,65 +1,104 @@
-# Drupal CMS Dockerized
+# Drupal CMS Docker Image
 
-This repository provides a complete, containerized environment for running **Drupal CMS**. It simplifies local development and provides a solid foundation for container-based deployments.
+This project builds a **production-ready, CI/CD-friendly Docker image** for the Drupal CMS distribution.
 
-The setup uses Docker Compose to orchestrate a multi-container environment featuring an Nginx web server, PHP-FPM, and a PostgreSQL database. The resulting Docker image is multi-platform, supporting both `amd64` (Intel/AMD) and `arm64` (Apple Silicon) architectures.
-
----
-## Tech Stack
-
-* **Drupal CMS**: The latest version pulled by Composer.
-* **Web Server**: Nginx
-* **PHP**: 8.3-FPM
-* **Database**: PostgreSQL 16
+This ensures a consistent, reproducible artifact that isn't dependent on local files, making it ideal for automated build pipelines.
 
 ---
-## Quick Start
 
-### Prerequisites
+## ✅ The final image contains:
 
-* [Docker](https://docs.docker.com/get-docker/)
-* [Docker Compose](https://docs.docker.com/compose/install/)
-
-### Installation
-
-1.  **Clone the repository:**
-    ```bash
-    git clone https://github.com/ttrelvik/drupal-cms-docker.git
-    cd drupal-cms-docker
-    ```
-
-2.  **Build and run the containers:**
-    For the first run, use the `--build` flag to build the custom Drupal image.
-    ```bash
-    docker-compose up --build -d
-    ```
-    To simply start the containers on subsequent runs, you can omit the `--build` flag:
-    ```bash
-    docker-compose up -d
-    ```
-
-3.  **Launch the Drupal Installer:**
-    Open your web browser and navigate to **[http://localhost:8080](http://localhost:8080)**.
-
-4.  **Configure the Database:**
-    When you reach the "Database configuration" step of the Drupal installer, use the following credentials:
-    * **Database type**: `PostgreSQL`
-    * **Database name**: `drupal`
-    * **Database username**: `drupal`
-    * **Database password**: `drupal`
-    * **Host** (under "Advanced options"): `db`
-    * **Port** (under "Advanced options"): `5432`
-
-Obviously replace those with something more secure when deploying.
-
-Complete the rest of the installation steps to get your site up and running.
+- **PHP 8.3-FPM**
+- **Nginx**
+- **Composer**
+- **Drupal CMS**
+- **Additional Drupal Modules**
 
 ---
-## Project Structure
 
-* `Dockerfile`: The blueprint for building the custom Drupal CMS image. It installs PHP, Nginx, Composer, and all necessary extensions.
-* `docker-compose.yml`: Defines and orchestrates the application (`drupal_cms`) and database (`db`) services.
-* `.docker/`: Contains supporting configuration files.
-    * `nginx/default.conf`: Nginx virtual host configuration.
-    * `entrypoint.sh`: A script that starts PHP-FPM and Nginx when the container launches.
-* `.gitignore`: Specifies files and directories to be excluded from version control.
+## 🚀 How to Use
+
+This project uses **Docker Compose** to build the image and run the necessary containers for a complete local environment.
+
+### **Prerequisites**
+
+- [Docker](https://docs.docker.com/get-docker/)
+- [Docker Compose](https://docs.docker.com/compose/)
+
+---
+
+### **1. Build and Run the Containers**
+
+From the root of this project directory, run the following command:
+
+```bash
+docker-compose up -d --build
+```
+
+**Flags explained:**
+- `--build`: Builds the image from the Dockerfile. Use this again if you modify the Dockerfile.
+- `-d`: Runs the containers in detached mode (in the background).
+
+This command will:
+
+- Build the **`drupal-cms-local:latest`** image using the instructions in the Dockerfile.
+- Start a **Drupal container** using the newly built image.
+- Start a **Postgres container** for the database.
+- Create **persistent Docker volumes** for the database and Drupal files.
+
+---
+
+### **2. Complete the Drupal Installation**
+
+Once the containers are running, you can complete the installation through your web browser:
+
+- Open [http://localhost:8080](http://localhost:8080).
+- Follow the Drupal installation prompts.
+- When you reach the **Database configuration** screen, use:
+
+```
+Database type: PostgreSQL
+Database name: drupal
+Database username: drupal
+Database password: drupal
+Advanced options > Host: db
+```
+
+After completing the final step, you will have a **fully functional Drupal CMS site running locally**.
+
+---
+
+## 🔧 Customization
+
+You can easily customize this project to fit your needs by editing the `Dockerfile`.
+
+---
+
+### **Adding/Removing Modules**
+
+The primary customization is adding or removing contributed modules. This is done in the **builder stage** of the Dockerfile.
+
+Find this section in the `Dockerfile`:
+
+```dockerfile
+# After the project is created, add any additional modules you need.
+RUN composer require \
+    'drupal/samlauth:^3.11' \
+    'drush/drush:^13.6'
+```
+
+You can **add, remove, or change versions** of packages in this `RUN` command.  
+After making changes, rebuild your image:
+
+```bash
+docker-compose up -d --build
+```
+
+---
+
+### **PHP Extensions & System Packages**
+
+If your modules require additional dependencies:
+
+- **System Packages** (e.g., `git`, `wget`) → Add to `apt-get install` in **both** `builder` and `drupal_app_base` stages.
+- **PHP Extensions** → Add to the `docker-php-ext-install` commands in **both** stages.
