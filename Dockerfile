@@ -9,6 +9,7 @@ ENV COMPOSER_ALLOW_SUPERUSER=1 \
 # Install system dependencies needed for Drupal and common PHP extensions
 RUN apt-get update && apt-get install -y \
     git \
+    rsync \
     unzip \
     libzip-dev \
     libpng-dev \

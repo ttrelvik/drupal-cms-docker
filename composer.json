@@ -35,12 +35,16 @@
         "drupal/drupal_cms_project": "^1.2",
         "drupal/drupal_cms_seo_tools": "^1.2",
         "drupal/drupal_cms_starter": "^1.2",
+        "drupal/login_security": "^2.0",
+        "drupal/migrate_plus": "^6.0",
+        "drupal/migrate_tools": "^6.1",
+        "drupal/password_policy": "^4.0",
         "drupal/project_browser": "@beta",
         "drupal/recipe_installer_kit": "^1-alpha6@alpha",
-        "drupal/webform": "@beta"
-    },
-    "require-dev": {
-        "drush/drush": "^13"
+        "drupal/samlauth": "^3.11",
+        "drupal/seckit": "^2.0",
+        "drupal/webform": "@beta",
+        "drush/drush": "^13.6"
     },
     "conflict": {
         "drupal/drupal": "*"
@@ -50,11 +54,12 @@
     "config": {
         "allow-plugins": {
             "composer/installers": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true,
             "drupal/core-composer-scaffold": true,
             "drupal/core-project-message": true,
             "drupal/core-recipe-unpack": true,
-            "php-http/discovery": true,
-            "drupal/core-vendor-hardening": true
+            "drupal/core-vendor-hardening": true,
+            "php-http/discovery": true
         },
         "sort-packages": true,
         "optimize-autoloader": true
@@ -90,5 +95,8 @@
                 "  * Get involved with the Drupal community: https://drupal.org/getting-involved"
             ]
         }
+    },
+    "require-dev": {
+        "drupal/coder": "^8.3"
     }
 }
