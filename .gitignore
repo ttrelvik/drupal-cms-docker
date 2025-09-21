@@ -15,3 +15,7 @@
 
 # Ignore OS-generated files.
 .DS_Store
+
+# Local environment files and secrets
+.env
+secrets/
