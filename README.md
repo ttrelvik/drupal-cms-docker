@@ -29,10 +29,10 @@ This project uses **Docker Compose** to build the image and run the necessary co
 
 ### **1. Build and Run the Containers**
 
-From the root of this project directory, run the following command:
+From the root of this project directory, run the following command (modern CLI):
 
 ```bash
-docker-compose up -d --build
+docker compose up -d --build
 ```
 
 **Flags explained:**
@@ -54,15 +54,17 @@ Once the containers are running, you can complete the installation through your 
 
 - Open [http://localhost:8080](http://localhost:8080).
 - Follow the Drupal installation prompts.
-- When you reach the **Database configuration** screen, use:
+When you reach the **Database configuration** screen, use the values in your `.env` (copy `.env.example` to `.env` first):
 
-```
+```text
 Database type: PostgreSQL
-Database name: drupal
-Database username: drupal
-Database password: drupal
+Database name: <value of POSTGRES_DB in .env> (default: drupal)
+Database username: <value of POSTGRES_USER in .env> (default: drupal)
+Database password: <value of POSTGRES_PASSWORD in .env>
 Advanced options > Host: db
 ```
+
+Note: `docker-compose.yml` maps the canonical `POSTGRES_*` variables from `.env` into the Drupal container as `DB_*` (so define the canonical values once in `.env`).
 
 After completing the final step, you will have a **fully functional Drupal CMS site running locally**.
 
@@ -91,7 +93,7 @@ You can **add, remove, or change versions** of packages in this `RUN` command.
 After making changes, rebuild your image:
 
 ```bash
-docker-compose up -d --build
+docker compose up -d --build
 ```
 
 ---

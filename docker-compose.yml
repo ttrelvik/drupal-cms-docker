@@ -1,24 +1,56 @@
 services:
   drupal_cms:
+    container_name: drupal_cms
     build: .
     image: drupal-cms-local:latest
-    ports:
-      - "8080:80"
+    # Do not publish port 80 to the host for production when behind Traefik.
+    # If you still want local host access, uncomment the following two lines:
+    # ports:
+    #   - "8080:80"
     volumes:
       # Mount the entire sites/default directory for persistence
       - drupal_sites_default:/app/web/sites/default
     env_file:
       - .env
+    environment:
+      DB_HOST: ${DB_HOST}
+      DB_NAME: ${POSTGRES_DB}
+      DB_USER: ${POSTGRES_USER}
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
     depends_on:
       - db
+    networks:
+      - drupal_net
+      - traefik-net
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.drupal.rule=Host(`${DOMAIN}`)"
+      - "traefik.http.routers.drupal.entrypoints=https"
+      - "traefik.http.routers.drupal.tls=true"
+      - "traefik.http.routers.drupal.tls.certresolver=myresolver"
+      - "traefik.http.services.drupal.loadbalancer.server.port=80"
 
   db:
+    container_name: drupal_db
     image: postgres:16
     env_file:
       - .env
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    networks:
+      - drupal_net
 
 volumes:
   postgres_data:
   drupal_sites_default:
+
+networks:
+  drupal_net:
+    driver: bridge
+  # Use the existing traefik-net from your Traefik deployment (external)
+  traefik-net:
+    external: true

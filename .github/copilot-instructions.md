@@ -15,46 +15,46 @@ Big-picture architecture (what to expect):
 - Persistent data: `docker-compose.yml` exposes two volumes: `postgres_data` (Postgres DB data) and `drupal_sites_default` mounted at `/app/web/sites/default`.
 
 Developer workflows (explicit commands & examples):
-- Build and run locally (from repo root):
+- Build and run locally (from repo root) using the modern Docker CLI:
 ```bash
-docker-compose up -d --build
+docker compose up -d --build
 ```
 - View container logs (Nginx and PHP logs are forwarded):
 ```bash
-docker-compose logs -f drupal_cms
+docker compose logs -f drupal_cms
 ```
 - Run a shell in the running web container (image may not have bash; use `sh`):
 ```bash
-docker-compose exec drupal_cms sh
+docker compose exec drupal_cms sh
 ```
 - Drush is installed via Composer (`drush/drush`) and available in the image `PATH` (`/app/vendor/bin`). Example (from host):
 ```bash
-docker-compose exec drupal_cms vendor/bin/drush status
+docker compose exec drupal_cms vendor/bin/drush status
 ```
 
 Project-specific conventions and gotchas (do not assume defaults):
-- To add contributed modules or change Drupal core version: edit the `RUN composer require ...` line in the `builder` stage of `Dockerfile`, then rebuild with `docker-compose up -d --build`.
+- To add contributed modules or change Drupal core version: edit the `RUN composer require ...` line in the `builder` stage of `Dockerfile`, then rebuild with `docker compose up -d --build`.
 - If you need system packages or PHP extensions for modules, update both the `builder` and `drupal_app_base` stages (`apt-get install` and `docker-php-ext-install`) so build-time and runtime environments match.
-- The `docker-compose` service `drupal_cms` mounts `drupal_sites_default` at `/app/web/sites/default`. A freshly mounted, empty volume will hide files baked into the image. Inspect the directory before installing, e.g. `docker-compose exec drupal_cms sh -c "ls -la /app/web/sites/default"`.
+- The `docker-compose` service `drupal_cms` mounts `drupal_sites_default` at `/app/web/sites/default`. A freshly mounted, empty volume will hide files baked into the image. Inspect the directory before installing, e.g. `docker compose exec drupal_cms sh -c "ls -la /app/web/sites/default"`.
 - Nginx expects PHP-FPM at `127.0.0.1:9000` (see `.docker/nginx/default.conf`). Any change to how PHP-FPM listens must be coordinated with this file or with the entrypoint.
-- The entrypoint uses `php-fpm -D` (note the command name) and symlinks Nginx logs to stdout/stderr — prefer `docker-compose logs` for quick debugging.
+  - The entrypoint uses `php-fpm -D` (note the command name) and symlinks Nginx logs to stdout/stderr — prefer `docker compose logs` for quick debugging.
 
 Integration points & concrete values:
-- Postgres connection (used during Drupal install):
+-- Postgres connection (used during Drupal install):
   - Host: `db`
-  - Database: `drupal`
-  - User: `drupal`
-  - Password: `drupal`
-  (These are defined in `docker-compose.yml` and must match any automated install scripts.)
+  - Database: value of `POSTGRES_DB` in `.env` (default: `drupal`)
+  - User: value of `POSTGRES_USER` in `.env` (default: `drupal`)
+  - Password: value of `POSTGRES_PASSWORD` in `.env`
+  (Define canonical `POSTGRES_*` variables once in `.env` or copy from `.env.example`; `docker-compose.yml` maps them into the Drupal container as `DB_*`.)
 
 When editing code or containers, prefer the smallest, verifiable change:
-- If you change the Dockerfile, rebuild with `docker-compose up -d --build`. Then confirm the site at `http://localhost:8080` and check `docker-compose logs`.
+- If you change the Dockerfile, rebuild with `docker compose up -d --build`. Then confirm the site at `http://localhost:8080` and check `docker compose logs`.
 - If adding packages, update both build/runtime stages and run a full rebuild.
 
 What is not present / not discoverable here:
 - There are no CI config files or automated tests in this repo. If you see references to CI in other notes, verify by searching for `.github/workflows` or similar.
 
-If anything in these files looks ambiguous (e.g., PHP-FPM listen mode, first-run population of `sites/default`), ask for clarification or reproduce the environment locally with `docker-compose up -d --build` and inspect paths listed above.
+If anything in these files looks ambiguous (e.g., PHP-FPM listen mode, first-run population of `sites/default`), ask for clarification or reproduce the environment locally with `docker compose up -d --build` and inspect paths listed above.
 
 Examples (quick edits):
 - Add a PHP extension: edit both stages in `Dockerfile` and add the `docker-php-ext-install` line in each. Rebuild.
