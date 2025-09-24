@@ -23,6 +23,10 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Run create-project to download the Drupal CMS project and its dependencies.
 RUN composer create-project drupal/cms .
 
+# After creating the project, immediately update all dependencies to their
+# latest possible versions according to the composer.json constraints.
+RUN composer update
+
 # After the project is created, add any additional modules you need.
 RUN composer require \
     'drupal/samlauth:^3.11' \
