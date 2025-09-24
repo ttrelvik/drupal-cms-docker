@@ -1,17 +1,14 @@
 #!/bin/sh
 set -e
 
-chown -R www-data:www-data /app
+echo "Entrypoint: Applying ownership to the sites/default directory..."
+# FIX: Only run chown on the volume mount for a fast startup.
+chown -R www-data:www-data /app/web/sites/default
 
-# Start PHP-FPM in the background. Note: The command is 'php-fpm', not 'php-fpm8.3'.
+echo "Entrypoint: Starting PHP-FPM in the background..."
+# Start PHP-FPM as a daemon so the script can continue.
 php-fpm -D
 
-# Create the Nginx log directory.
-mkdir -p /var/log/nginx
-
-# Symlink the Nginx logs to stdout/stderr for container logging.
-ln -sf /dev/stdout /var/log/nginx/access.log
-ln -sf /dev/stderr /var/log/nginx/error.log
-
-# Start Nginx in the foreground.
-nginx -g 'daemon off;'
+echo "Entrypoint: Starting Nginx in the foreground..."
+# BEST PRACTICE: exec replaces the shell with nginx, making it PID 1.
+exec nginx -g 'daemon off;'

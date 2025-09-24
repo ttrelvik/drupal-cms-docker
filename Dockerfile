@@ -68,7 +68,7 @@ COPY .docker/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
 # Set ownership to the web user to avoid permission issues.
-RUN chown -R www-data:www-data /app
+RUN chown -R www-data:www-data /app/web/sites
 
 # Expose port 80 for the Nginx web server.
 EXPOSE 80
