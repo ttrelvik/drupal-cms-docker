@@ -69,6 +69,7 @@ COPY --from=builder /app .
 # Copy your custom Nginx configuration and entrypoint script.
 COPY .docker/nginx/default.conf /etc/nginx/sites-available/default
 COPY .docker/entrypoint.sh /usr/local/bin/entrypoint.sh
+COPY .docker/drupal/settings.local.php /app/settings.local.php
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
 # Set ownership to the web user to avoid permission issues.

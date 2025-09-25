@@ -19,6 +19,8 @@ services:
       DB_NAME: ${POSTGRES_DB}
       DB_USER: ${POSTGRES_USER}
       DB_PASSWORD: ${POSTGRES_PASSWORD}
+      TRUSTED_PROXY_CIDR: ${TRAEFIK_SUBNET}
+      DOMAIN: ${DOMAIN}
     depends_on:
       - db
     networks:
