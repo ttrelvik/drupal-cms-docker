@@ -1,5 +1,5 @@
 # Stage 1: Build the application using a PHP base to ensure OS consistency.
-FROM php:8.3-fpm-bookworm AS builder
+FROM php:8.4-fpm-bookworm AS builder
 
 # Set the working directory for the build.
 WORKDIR /app
