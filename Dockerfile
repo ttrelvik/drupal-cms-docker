@@ -21,17 +21,16 @@ RUN docker-php-ext-install -j$(nproc) gd zip
 # Install Composer globally.
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Run create-project to download the Drupal CMS project and its dependencies.
-RUN composer create-project drupal/cms .
+# Create the project, but do not install dependencies yet.
+# The --no-install flag is key to preventing a premature lock file.
+RUN composer create-project drupal/cms . --no-install
 
-# After creating the project, immediately update all dependencies to their
-# latest possible versions according to the composer.json constraints.
-RUN composer update
-
-# After the project is created, add any additional modules you need.
+# Now, add all required packages to composer.json, and then run a single,
+# comprehensive update to resolve and install everything at once.
 RUN composer require \
-    'drupal/samlauth:^3.11' \
-    'drush/drush:^13.6'
+    "drupal/samlauth:^3.11" \
+    "drush/drush:^13.6" \
+    --dev
 
 # ---
 
