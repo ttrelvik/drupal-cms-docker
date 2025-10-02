@@ -1,11 +1,8 @@
 services:
   drupal_cms:
-    build: .
-    image: drupal-cms-local:latest
-    # Do not publish port 80 to the host for production when behind Traefik.
-    # If you still want local host access, uncomment the following two lines:
-    # ports:
-    #   - "8080:80"
+    # Use the custom Drupal CMS image with pre-installed dependencies
+    # pulled from Docker Hub:
+    image: ttrelvik/drupal-cms:1.2.5
     volumes:
       # Mount the entire sites/default directory for persistence
       - drupal_sites_default:/app/web/sites/default
