@@ -3,6 +3,7 @@
 
 # Local environment files and secrets
 .env
+dev.env
 secrets/
 
 # Ignore backup directory

@@ -1,0 +1,67 @@
+services:
+  drupal_cms_dev:                                     # renamed for dev
+    # Use the custom Drupal CMS image with pre-installed dependencies
+    # pulled from Docker Hub:
+    image: ttrelvik/drupal-cms:1.2.5-2
+    volumes:
+      # Mount the entire sites/default directory for persistence
+      - drupal_sites_default_dev:/app/web/sites/default  # renamed for dev
+      # Mount SAML certificates
+      # - ./secrets/saml:/etc/ssl/private             # Disabled for dev
+    env_file:
+      - dev.env                                       # use dev.env for dev
+    depends_on:
+      - db_dev                                        # renamed for dev
+    networks:
+      - drupal_net_dev                                # renamed for dev
+      - traefik-net
+    deploy:
+      replicas: 1
+      labels:
+        - "traefik.enable=true"
+        - "traefik.docker.network=traefik-net" # Specify the Traefik network
+
+        # Main router for Drupal CMS primary domain
+        # Note: ${DOMAIN} variable substitution doesn't work in Swarm labels - hardcode your domain
+        - "traefik.http.routers.drupal_cms.rule=Host(`dev_blog.trelvik.net`)" # renamed for dev
+        - "traefik.http.routers.drupal_cms.entrypoints=https"
+        - "traefik.http.routers.drupal_cms.tls=true"
+        - "traefik.http.routers.drupal_cms.tls.certresolver=myresolver"
+        - "traefik.http.services.drupal_cms.loadbalancer.server.port=80"
+
+        ### Commented out for dev: ###
+        # # --- Dynamic Redirect Router using .env variables ---
+        # # Note: ${REDIRECT_HOSTNAME} and ${DOMAIN} must be hardcoded in Swarm mode:
+        # - "traefik.http.routers.drupal_redirect.rule=Host(`drupal.az.trelvik.net`)"
+        # - "traefik.http.routers.drupal_redirect.entrypoints=https"
+        # - "traefik.http.routers.drupal_redirect.tls=true"
+        # - "traefik.http.routers.drupal_redirect.tls.certresolver=myresolver"
+        # - "traefik.http.routers.drupal_redirect.middlewares=redirect-to-blog"
+        # # Middleware redirecting to the main DOMAIN
+        # - "traefik.http.middlewares.redirect-to-blog.redirectregex.regex=^https://drupal.az.trelvik.net/(.*)"
+        # - "traefik.http.middlewares.redirect-to-blog.redirectregex.replacement=https://blog.trelvik.net/$${1}"
+        # - "traefik.http.middlewares.redirect-to-blog.redirectregex.permanent=true"
+
+  db_dev:                                             # renamed for dev
+    image: postgres:16
+    env_file:
+      - dev.env                                       # use dev.env for dev
+    volumes:
+      - postgres_data_dev:/var/lib/postgresql/data    # renamed for dev
+    networks:
+      - drupal_net_dev                                # renamed for dev
+    deploy:
+      replicas: 1
+
+volumes:
+  postgres_data_dev:                                  # renamed for dev
+    name: drupal-cms-docker_postgres_data_dev         # renamed for dev
+  drupal_sites_default_dev:                           # renamed for dev
+    name: drupal-cms-docker_drupal_sites_default_dev  # renamed for dev
+
+networks:
+  drupal_net_dev:                                     # renamed for dev
+    driver: overlay
+  # Use the existing traefik-net (external)
+  traefik-net:
+    external: true
