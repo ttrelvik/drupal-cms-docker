@@ -1,6 +1,5 @@
 services:
   drupal_cms:
-    container_name: drupal_cms
     build: .
     image: drupal-cms-local:latest
     # Do not publish port 80 to the host for production when behind Traefik.
@@ -14,62 +13,57 @@ services:
       - ./secrets/saml:/etc/ssl/private
     env_file:
       - .env
-    environment:
-      DB_HOST: ${DB_HOST}
-      DB_NAME: ${POSTGRES_DB}
-      DB_USER: ${POSTGRES_USER}
-      DB_PASSWORD: ${POSTGRES_PASSWORD}
-      TRUSTED_PROXY_CIDR: ${TRAEFIK_SUBNET}
-      DOMAIN: ${DOMAIN}
-      ADDITIONAL_TRUSTED_HOSTS: ${ADDITIONAL_TRUSTED_HOSTS}
     depends_on:
       - db
     networks:
       - drupal_net
       - traefik-net
-    labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=traefik-net" # Specify the Traefik network
+    deploy:
+      replicas: 1
+      labels:
+        - "traefik.enable=true"
+        - "traefik.docker.network=traefik-net" # Specify the Traefik network
 
-      # Main router for Drupal CMS primary domain
-      - "traefik.http.routers.drupal_cms.rule=Host(`${DOMAIN}`)"
-      - "traefik.http.routers.drupal_cms.entrypoints=https"
-      - "traefik.http.routers.drupal_cms.tls=true"
-      - "traefik.http.routers.drupal_cms.tls.certresolver=myresolver"
-      - "traefik.http.services.drupal_cms.loadbalancer.server.port=80"
+        # Main router for Drupal CMS primary domain
+        # Note: ${DOMAIN} variable substitution doesn't work in Swarm labels - hardcode your domain
+        - "traefik.http.routers.drupal_cms.rule=Host(`blog.trelvik.net`)"
+        - "traefik.http.routers.drupal_cms.entrypoints=https"
+        - "traefik.http.routers.drupal_cms.tls=true"
+        - "traefik.http.routers.drupal_cms.tls.certresolver=myresolver"
+        - "traefik.http.services.drupal_cms.loadbalancer.server.port=80"
 
-      # --- Dynamic Redirect Router using .env variables ---
-      - "traefik.http.routers.drupal_redirect.rule=Host(`${REDIRECT_HOSTNAME}`)"
-      - "traefik.http.routers.drupal_redirect.entrypoints=https"
-      - "traefik.http.routers.drupal_redirect.tls=true"
-      - "traefik.http.routers.drupal_redirect.tls.certresolver=myresolver"
-      - "traefik.http.routers.drupal_redirect.middlewares=redirect-to-blog"
-      # Middleware redirecting to the main DOMAIN
-      - "traefik.http.middlewares.redirect-to-blog.redirectregex.regex=^https://${REDIRECT_HOSTNAME}/(.*)"
-      - "traefik.http.middlewares.redirect-to-blog.redirectregex.replacement=https://${DOMAIN}/$${1}"
-      - "traefik.http.middlewares.redirect-to-blog.redirectregex.permanent=true"
+        # --- Dynamic Redirect Router using .env variables ---
+        # Note: ${REDIRECT_HOSTNAME} and ${DOMAIN} must be hardcoded in Swarm mode:
+        - "traefik.http.routers.drupal_redirect.rule=Host(`drupal.az.trelvik.net`)"
+        - "traefik.http.routers.drupal_redirect.entrypoints=https"
+        - "traefik.http.routers.drupal_redirect.tls=true"
+        - "traefik.http.routers.drupal_redirect.tls.certresolver=myresolver"
+        - "traefik.http.routers.drupal_redirect.middlewares=redirect-to-blog"
+        # Middleware redirecting to the main DOMAIN
+        - "traefik.http.middlewares.redirect-to-blog.redirectregex.regex=^https://drupal.az.trelvik.net/(.*)"
+        - "traefik.http.middlewares.redirect-to-blog.redirectregex.replacement=https://blog.trelvik.net/$${1}"
+        - "traefik.http.middlewares.redirect-to-blog.redirectregex.permanent=true"
 
   db:
-    container_name: drupal_db
     image: postgres:16
     env_file:
       - .env
-    environment:
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
       - drupal_net
+    deploy:
+      replicas: 1
 
 volumes:
   postgres_data:
+    name: drupal-cms-docker_postgres_data
   drupal_sites_default:
+    name: drupal-cms-docker_drupal_sites_default
 
 networks:
   drupal_net:
-    driver: bridge
-  # Use the existing traefik-net from your Traefik deployment (external)
+    driver: overlay
+  # Use the existing traefik-net (external)
   traefik-net:
     external: true
