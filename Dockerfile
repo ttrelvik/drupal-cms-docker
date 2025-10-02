@@ -49,7 +49,18 @@ RUN apt-get update && apt-get install -y \
     libjpeg-dev \
     libwebp-dev \
     libpq-dev \
-    nginx
+    nginx \
+    # Add dependencies needed to add the pgsql repo
+    curl \
+    gnupg \
+    lsb-release && \
+    # Add the PostgreSQL GPG key
+    curl -sS https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmor -o /usr/share/keyrings/postgresql-archive-keyring.gpg && \
+    # Add the PostgreSQL repository
+    echo "deb [signed-by=/usr/share/keyrings/postgresql-archive-keyring.gpg] http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list && \
+    # Update apt lists again and install the specific client version
+    apt-get update && \
+    apt-get install -y postgresql-client-16
 
 # Configure and install required PHP extensions for Drupal.
 RUN docker-php-ext-configure gd --with-jpeg --with-webp
