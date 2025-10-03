@@ -5,16 +5,37 @@
  * Local development customizations.
  * 
  * In order for this file to be used, settings.local.php must be included
- * from settings.php. Find the following 3 lines in settings.php and uncomment
- * them (future settings.php versions may differ):
+ * from settings.php. 
+ * 
+ * The following 3 lines in settings.php should be uncommented by the 
+ * Dockerfile when the container is built, but if settings.default.php changes
+ * in a future version the pattern may not match and you'll need to uncomment
+ * them manually (or fix the Dockerfile):
+ * 
  * if (file_exists($app_root . '/' . $site_path . '/settings.local.php')) {
  *   include $app_root . '/' . $site_path . '/settings.local.php';
  * }
  *
  * This file contains settings that are specific to the local Docker environment,
  * such as reverse proxy configurations and trusted host patterns. It is managed
- * in Git and copied into place by the container's entrypoint script.
+ * in git and copied into place by the container's entrypoint script.
  */
+
+// --- Database Credentials from Environment Variables ---
+// Check for the DB_NAME environment variable and, if it exists, populate the
+// $databases array for Drupal.
+if (getenv('DB_NAME')) {
+  $databases['default']['default'] = [
+    'database' => getenv('DB_NAME'),
+    'username' => getenv('DB_USER'),
+    'password' => getenv('DB_PASSWORD'),
+    'host' => getenv('DB_HOST'),
+    'port' => getenv('DB_PORT') ?: '5432',
+    'driver' => 'pgsql',
+    'prefix' => '',
+    'collation' => 'C',
+  ];
+}
 
 // --- Trusted Host Patterns ---
 $trusted_hosts = [];
@@ -44,4 +65,5 @@ $trusted_proxy_cidr = getenv('TRUSTED_PROXY_CIDR') ?: '127.0.0.1';
 
 $settings['reverse_proxy_addresses'] = [$trusted_proxy_cidr];
 $settings['reverse_proxy'] = TRUE;
+# Indicate which headers should be used to detect the original client IP and protocol.
 $settings['reverse_proxy_trusted_headers'] = \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_PROTO | \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_FOR;
