@@ -2,7 +2,7 @@
 set -e
 
 # --- CONFIGURATION ---
-CONTAINER_FILTER="name=drupal_drupal_cms"
+CONTAINER_FILTER="drupal_drupal_cms"
 BACKUP_DIR_BASE="./backups"
 BACKUP_FILENAME="drupal-backup.tar.gz"
 BACKUP_DEST_IN_CONTAINER="/tmp/$BACKUP_FILENAME"
@@ -15,7 +15,7 @@ mkdir -p "$BACKUP_DIR"
 # Finds the container ID and exits if not found.
 get_container_id() {
   local id
-  id=$(docker ps -q --filter "$CONTAINER_FILTER" | head -n 1)
+  id=$(docker ps -q --filter "name=^${CONTAINER_FILTER}" | head -n 1)
   if [ -z "$id" ]; then
     echo "Error: Could not find a running container with filter '$CONTAINER_FILTER'." >&2
     exit 1

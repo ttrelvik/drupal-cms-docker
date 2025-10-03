@@ -24,7 +24,7 @@ fi
 # --- HELPER FUNCTIONS ---
 get_container_id() {
   local id
-  id=$(docker ps -q --filter "name=${CONTAINER_FILTER}" | head -n 1)
+  id=$(docker ps -q --filter "name=^${CONTAINER_FILTER}" | head -n 1)
   if [ -z "$id" ]; then
     echo "Error: Could not find a running container with filter '${CONTAINER_FILTER}'." >&2
     exit 1
