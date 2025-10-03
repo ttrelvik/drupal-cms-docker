@@ -83,6 +83,10 @@ COPY .docker/entrypoint.sh /usr/local/bin/entrypoint.sh
 COPY .docker/drupal/settings.local.php /app/settings.local.php
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
+# Prepare settings.php to include settings.local.php by default.
+# This avoids manual edits after a container is created.
+RUN sed -i "/# if (file_exists(\$app_root . '\/' . \$site_path . '\/settings.local.php'))/,+2s/^# //" /app/web/sites/default/default.settings.php
+
 # Set ownership to the web user to avoid permission issues.
 RUN chown -R www-data:www-data /app/web/sites
 
