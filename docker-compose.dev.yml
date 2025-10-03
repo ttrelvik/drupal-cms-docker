@@ -2,7 +2,7 @@ services:
   drupal_cms_dev:                                     # renamed for dev
     # Use the custom Drupal CMS image with pre-installed dependencies
     # pulled from Docker Hub:
-    image: ttrelvik/drupal-cms:1.2.5-2
+    image: ttrelvik/drupal-cms:1.2.5-3
     volumes:
       # Mount the entire sites/default directory for persistence
       - drupal_sites_default_dev:/app/web/sites/default  # renamed for dev
@@ -19,15 +19,15 @@ services:
       replicas: 1
       labels:
         - "traefik.enable=true"
-        - "traefik.docker.network=traefik-net" # Specify the Traefik network
+        - "traefik.swarm.network=traefik-net" # Specify the Traefik network
 
         # Main router for Drupal CMS primary domain
         # Note: ${DOMAIN} variable substitution doesn't work in Swarm labels - hardcode your domain
-        - "traefik.http.routers.drupal_cms.rule=Host(`dev_blog.trelvik.net`)" # renamed for dev
-        - "traefik.http.routers.drupal_cms.entrypoints=https"
-        - "traefik.http.routers.drupal_cms.tls=true"
-        - "traefik.http.routers.drupal_cms.tls.certresolver=myresolver"
-        - "traefik.http.services.drupal_cms.loadbalancer.server.port=80"
+        - "traefik.http.routers.drupal_cms_dev.rule=Host(`dev-blog.trelvik.net`)" # renamed for dev
+        - "traefik.http.routers.drupal_cms_dev.entrypoints=https"                 # renamed for dev
+        - "traefik.http.routers.drupal_cms_dev.tls=true"                          # renamed for dev
+        - "traefik.http.routers.drupal_cms_dev.tls.certresolver=myresolver"       # renamed for dev
+        - "traefik.http.services.drupal_cms_dev.loadbalancer.server.port=80"      # renamed for dev
 
         ### Commented out for dev: ###
         # # --- Dynamic Redirect Router using .env variables ---

@@ -2,7 +2,7 @@ services:
   drupal_cms:
     # Use the custom Drupal CMS image with pre-installed dependencies
     # pulled from Docker Hub:
-    image: ttrelvik/drupal-cms:1.2.5-2
+    image: ttrelvik/drupal-cms:1.2.5-3
     volumes:
       # Mount the entire sites/default directory for persistence
       - drupal_sites_default:/app/web/sites/default
@@ -19,7 +19,7 @@ services:
       replicas: 1
       labels:
         - "traefik.enable=true"
-        - "traefik.docker.network=traefik-net" # Specify the Traefik network
+        - "traefik.swarm.network=traefik-net" # Specify the Traefik network
 
         # Main router for Drupal CMS primary domain
         # Note: ${DOMAIN} variable substitution doesn't work in Swarm labels - hardcode your domain
