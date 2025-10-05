@@ -37,6 +37,10 @@ if (getenv('DB_NAME')) {
   ];
 }
 
+// --- Configuration Sync Directory ---
+// A path outside the web root, but within the persistent volume.
+$settings['config_sync_directory'] = '../config/sync';
+
 // --- Trusted Host Patterns ---
 $trusted_hosts = [];
 
