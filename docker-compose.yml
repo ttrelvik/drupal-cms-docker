@@ -2,12 +2,15 @@ services:
   drupal_cms:
     # Use the custom Drupal CMS image with pre-installed dependencies
     # pulled from Docker Hub:
-    image: ttrelvik/drupal-cms:1.2.5-3
+    image: ttrelvik/drupal-cms:1.2.5-5
     volumes:
       # Mount the entire sites/default directory for persistence
       - drupal_sites_default:/app/web/sites/default
       # Mount SAML certificates
       - ./secrets/saml:/etc/ssl/private
+    secrets:
+      - drupal_cms-postgres_password
+    # Use .env file for non-sensitive environment variables
     env_file:
       - .env
     depends_on:
@@ -43,10 +46,13 @@ services:
 
   db:
     image: postgres:16
-    env_file:
-      - .env
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    secrets:
+      - drupal_cms-postgres_password
+    # Use .env file for non-sensitive environment variables
+    env_file:
+      - .env
     networks:
       - drupal_net
     deploy:
@@ -57,6 +63,10 @@ volumes:
     name: drupal-cms-docker_postgres_data
   drupal_sites_default:
     name: drupal-cms-docker_drupal_sites_default
+
+secrets:
+  drupal_cms-postgres_password:
+    external: true
 
 networks:
   drupal_net:

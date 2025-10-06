@@ -2,12 +2,15 @@ services:
   drupal_cms_dev:                                     # renamed for dev
     # Use the custom Drupal CMS image with pre-installed dependencies
     # pulled from Docker Hub:
-    image: ttrelvik/drupal-cms:1.2.5-4
+    image: ttrelvik/drupal-cms:1.2.5-5
     volumes:
       # Mount the entire sites/default directory for persistence
       - drupal_sites_default_dev:/app/web/sites/default  # renamed for dev
       # Mount SAML certificates
       # - ./secrets/saml:/etc/ssl/private             # Disabled for dev
+    secrets:
+      - drupal_cms-dev_postgres_password
+    # Use .env file for non-sensitive environment variables
     env_file:
       - dev.env                                       # use dev.env for dev
     depends_on:
@@ -44,10 +47,13 @@ services:
 
   db_dev:                                             # renamed for dev
     image: postgres:16
-    env_file:
-      - dev.env                                       # use dev.env for dev
     volumes:
       - postgres_data_dev:/var/lib/postgresql/data    # renamed for dev
+    secrets:
+      - drupal_cms-dev_postgres_password
+    # Use .env file for non-sensitive environment variables
+    env_file:
+      - dev.env                                       # use dev.env for dev
     networks:
       - drupal_net_dev                                # renamed for dev
     deploy:
@@ -58,6 +64,10 @@ volumes:
     name: drupal-cms-docker_postgres_data_dev         # renamed for dev
   drupal_sites_default_dev:                           # renamed for dev
     name: drupal-cms-docker_drupal_sites_default_dev  # renamed for dev
+
+secrets:
+  drupal_cms-dev_postgres_password:
+    external: true
 
 networks:
   drupal_net_dev:                                     # renamed for dev
