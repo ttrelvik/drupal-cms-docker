@@ -23,7 +23,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Create the project, but do not install dependencies yet.
 # The --no-install flag is key to preventing a premature lock file.
-RUN composer create-project drupal/cms:^1.2.5 . --no-install
+RUN composer create-project drupal/cms:^1.2 . --no-install
 
 # Now, add all required packages to composer.json, and then run a single,
 # comprehensive update to resolve and install everything at once.
