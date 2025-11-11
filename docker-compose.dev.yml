@@ -46,7 +46,7 @@ services:
         # - "traefik.http.middlewares.redirect-to-blog.redirectregex.permanent=true"
 
   db_dev:                                             # renamed for dev
-    image: pgvector/pgvector:0.8.1-pg16-bookworm
+    image: pgvector/pgvector:0.8.1-pg16-trixie
     volumes:
       - postgres_data_dev:/var/lib/postgresql/data    # renamed for dev
       - ./.docker/pg-init:/docker-entrypoint-initdb.d # Init scripts for pgvector
