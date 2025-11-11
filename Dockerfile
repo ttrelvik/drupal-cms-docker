@@ -12,11 +12,12 @@ RUN apt-get update && apt-get install -y \
     libzip-dev \
     libpng-dev \
     libjpeg-dev \
-    libwebp-dev
+    libwebp-dev \
+    libpq-dev
 
 # Install the required PHP extensions.
 RUN docker-php-ext-configure gd --with-jpeg --with-webp
-RUN docker-php-ext-install -j$(nproc) gd zip
+RUN docker-php-ext-install -j$(nproc) gd zip pgsql pdo_pgsql
 
 # Install Composer globally.
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
@@ -30,9 +31,9 @@ RUN composer create-project drupal/cms:^1.2 . --no-install
 RUN composer require \
     "drupal/samlauth:^3.11" \
     "drush/drush:^13.6" \
+    "drupal/ai_vdb_provider_postgres:^1.0@alpha" \
+    "drupal/gemini_provider:^1.0@beta" \
     --dev
-
-# ---
 
 # Stage 2: Build the production environment base. This is kept separate for clarity and caching.
 FROM php:8.3-fpm-bookworm AS drupal_app_base
