@@ -46,9 +46,10 @@ services:
         # - "traefik.http.middlewares.redirect-to-blog.redirectregex.permanent=true"
 
   db_dev:                                             # renamed for dev
-    image: postgres:16
+    image: pgvector/pgvector:0.8.1-pg16-bookworm
     volumes:
       - postgres_data_dev:/var/lib/postgresql/data    # renamed for dev
+      - ./.docker/pg-init:/docker-entrypoint-initdb.d # Init scripts for pgvector
     secrets:
       - drupal_cms-dev_postgres_password
     # Use .env file for non-sensitive environment variables
@@ -81,7 +82,6 @@ volumes:
     name: drupal-cms-docker_postgres_data_dev         # renamed for dev
   # qdrant_data_dev:
   #   name: drupal-cms-docker_qdrant_data_dev
-
 
 secrets:
   drupal_cms-dev_postgres_password:
