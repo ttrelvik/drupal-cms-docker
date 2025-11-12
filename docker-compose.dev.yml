@@ -2,7 +2,7 @@ services:
   drupal_cms_dev:                                     # renamed for dev
     # Use the custom Drupal CMS image with pre-installed dependencies
     # pulled from Docker Hub:
-    image: ttrelvik/drupal-cms:1.2.x-5
+    image: ttrelvik/drupal-cms:1.2.x-6
     volumes:
       # Mount the entire sites/default directory for persistence
       - drupal_sites_default_dev:/app/web/sites/default  # renamed for dev
@@ -10,6 +10,7 @@ services:
       # - ./secrets/saml:/etc/ssl/private             # Disabled for dev
     secrets:
       - drupal_cms-dev_postgres_password
+      - gemini_api_key
     # Use .env file for non-sensitive environment variables
     env_file:
       - dev.env                                       # use dev.env for dev
@@ -85,6 +86,8 @@ volumes:
 
 secrets:
   drupal_cms-dev_postgres_password:
+    external: true
+  gemini_api_key:
     external: true
 
 networks:

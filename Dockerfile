@@ -65,7 +65,7 @@ RUN apt-get update && apt-get install -y \
 
 # Configure and install required PHP extensions for Drupal.
 RUN docker-php-ext-configure gd --with-jpeg --with-webp
-RUN docker-php-ext-install -j$(nproc) gd zip pdo pdo_pgsql opcache
+RUN docker-php-ext-install -j$(nproc) gd zip pdo pdo_pgsql pgsql opcache
 
 # Set up the application directory.
 WORKDIR /app
