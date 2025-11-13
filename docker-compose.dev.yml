@@ -61,28 +61,11 @@ services:
     deploy:
       replicas: 1
 
-  # qdrant_dev:
-  #   image: qdrant/qdrant:latest
-  #   networks:
-  #     - drupal_net_dev     # internal only
-  #   volumes:
-  #     - qdrant_data_dev:/qdrant/storage
-  #   environment:
-  #     QDRANT__STORAGE__PATH: "/qdrant/storage"
-  #     QDRANT__SERVICE__GRPC_PORT: 6334
-  #   deploy:
-  #     replicas: 1
-  #     resources:
-  #       limits:
-  #         memory: 1G
-
 volumes:
   drupal_sites_default_dev:                           # renamed for dev
     name: drupal-cms-docker_drupal_sites_default_dev  # renamed for dev
   postgres_data_dev:                                  # renamed for dev
     name: drupal-cms-docker_postgres_data_dev         # renamed for dev
-  # qdrant_data_dev:
-  #   name: drupal-cms-docker_qdrant_data_dev
 
 secrets:
   drupal_cms-dev_postgres_password:
