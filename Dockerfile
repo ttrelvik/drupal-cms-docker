@@ -67,6 +67,9 @@ RUN apt-get update && apt-get install -y \
 RUN docker-php-ext-configure gd --with-jpeg --with-webp
 RUN docker-php-ext-install -j$(nproc) gd zip pdo pdo_pgsql pgsql opcache
 
+# Increase PHP memory limit to accommodate vectordb indexing.
+RUN echo "memory_limit = 512M" > /usr/local/etc/php/conf.d/memory-limit.ini
+
 # Set up the application directory.
 WORKDIR /app
 
