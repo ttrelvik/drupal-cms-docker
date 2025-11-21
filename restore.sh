@@ -2,7 +2,7 @@
 set -e
 
 # --- CONFIGURATION ---
-CONTAINER_FILTER="^drupal_dev_drupal_cms_dev"
+CONTAINER_FILTER="^drupal_dev_drupal_cms"
 BACKUP_FILENAME="drupal-backup.tar.gz"
 RESTORE_DEST_IN_CONTAINER="/tmp/$BACKUP_FILENAME"
 EXTRACT_DIR="/tmp/restore_temp"

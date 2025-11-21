@@ -1,21 +1,22 @@
 services:
-  drupal_cms_dev:                                     # renamed for dev
+  drupal_cms:
     # Use the custom Drupal CMS image with pre-installed dependencies
     # pulled from Docker Hub:
-    image: ttrelvik/drupal-cms:1.2.x-8
+    image: ttrelvik/drupal-cms:1.2.x-9
     volumes:
       # Mount the entire sites/default directory for persistence
-      - drupal_sites_default_dev:/app/web/sites/default  # renamed for dev
+      - drupal_sites_default:/app/web/sites/default
       # Mount SAML certificates
       # - ./secrets/saml:/etc/ssl/private             # Disabled for dev
     secrets:
       - drupal_cms-dev_postgres_password
       - gemini_api_key
+      - openai_api_key
     # Use .env file for non-sensitive environment variables
     env_file:
       - dev.env                                       # use dev.env for dev
     depends_on:
-      - db_dev                                        # renamed for dev
+      - db
     networks:
       - drupal_net_dev                                # renamed for dev
       - traefik-net
@@ -46,11 +47,12 @@ services:
         # - "traefik.http.middlewares.redirect-to-blog.redirectregex.replacement=https://blog.trelvik.net/$${1}"
         # - "traefik.http.middlewares.redirect-to-blog.redirectregex.permanent=true"
 
-  db_dev:                                             # renamed for dev
+  db:
     image: pgvector/pgvector:0.8.1-pg16-trixie
     volumes:
-      - postgres_data_dev:/var/lib/postgresql/data    # renamed for dev
-      - ./.docker/pg-init:/docker-entrypoint-initdb.d # Init scripts for pgvector
+      - postgres_data:/var/lib/postgresql/data
+      # Init script for pgvector to create extension on DB creation
+      - ./.docker/pg-init:/docker-entrypoint-initdb.d
     secrets:
       - drupal_cms-dev_postgres_password
     # Use .env file for non-sensitive environment variables
@@ -62,15 +64,17 @@ services:
       replicas: 1
 
 volumes:
-  drupal_sites_default_dev:                           # renamed for dev
+  drupal_sites_default:
     name: drupal-cms-docker_drupal_sites_default_dev  # renamed for dev
-  postgres_data_dev:                                  # renamed for dev
+  postgres_data:
     name: drupal-cms-docker_postgres_data_dev         # renamed for dev
 
 secrets:
   drupal_cms-dev_postgres_password:
     external: true
   gemini_api_key:
+    external: true
+  openai_api_key:
     external: true
 
 networks:
