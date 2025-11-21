@@ -1,0 +1,20 @@
+uuid: 0e9e06f9-88ed-4bdc-9d4b-07e41b503ce6
+langcode: en
+status: true
+dependencies:
+  theme:
+    - drupal_cms_olivero
+_core:
+  default_config_hash: dY7_Wihz9ohfBPKP554_brUfc9nPaecShShmC_VTGRM
+id: drupal_cms_olivero_page_title
+theme: drupal_cms_olivero
+region: content_above
+weight: -5
+provider: null
+plugin: page_title_block
+settings:
+  id: page_title_block
+  label: 'Page title'
+  label_display: '0'
+  provider: core
+visibility: {  }

@@ -1,0 +1,38 @@
+uuid: 235105b7-0ed3-4a94-acda-8e7247e7dbe1
+langcode: en
+status: true
+dependencies:
+  module:
+    - ai_chatbot
+  theme:
+    - drupal_cms_olivero
+id: drupal_cms_olivero_aideepchatchatbot
+theme: drupal_cms_olivero
+region: content_above
+weight: 0
+provider: null
+plugin: ai_deepchat_block
+settings:
+  id: ai_deepchat_block
+  label: 'TomAI Chat'
+  label_display: visible
+  provider: ai_chatbot
+  ai_assistant: portfolio_advocate
+  bot_name: TomAI
+  bot_image: /modules/contrib/ai/modules/ai_chatbot/assets/ai-star-avatar.svg
+  use_username: 0
+  default_username: ''
+  use_avatar: 0
+  default_avatar: ''
+  first_message: "Hi, I can answer questions about Tom's projects or any other content on this site. What would you like to talk about?"
+  stream: null
+  toggle_state: remember
+  width: auto
+  height: 100%
+  placement: bottom-right
+  show_structured_results: false
+  show_copy_icon: true
+  collapse_minimal: false
+  style_file: 'module:ai_chatbot:bard.yml'
+  verbose_mode: true
+visibility: {  }
