@@ -1,7 +1,7 @@
 host: db
 port: 5432
 username: drupal
-password: rupal_cms_dev_postgres_password
+password: drupal_cms_dev_postgres_password
 default_database: drupal
 _core:
   default_config_hash: zEgXHS20RKg5hj3QNhMcDQxhQd1gVO3_mE6qxdKWSfA

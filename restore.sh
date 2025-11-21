@@ -1,22 +1,43 @@
 #!/bin/bash
 set -e
 
-# --- CONFIGURATION ---
-CONTAINER_FILTER="^drupal_dev_drupal_cms"
-BACKUP_FILENAME="drupal-backup.tar.gz"
-RESTORE_DEST_IN_CONTAINER="/tmp/$BACKUP_FILENAME"
-EXTRACT_DIR="/tmp/restore_temp"
-
-# --- SCRIPT START ---
+# --- ARGUMENT PARSING ---
 if [ -z "$1" ]; then
-  echo "Usage: ./restore.sh <path_to_backup_directory>"
+  echo "Usage: ./restore.sh <stack_name> [path_to_backup_file]"
+  echo "Examples:"
+  echo "  ./restore.sh drupal_dev"
+  echo "  ./restore.sh drupal ./backups/2023-10-27_10-00-00/drupal-backup.tar.gz"
   exit 1
 fi
 
-BACKUP_PATH="$1/$BACKUP_FILENAME"
+STACK_NAME="$1"
+MANUAL_BACKUP_PATH="$2"
+
+# --- CONFIGURATION ---
+CONTAINER_FILTER="^${STACK_NAME}_drupal_cms"
+BACKUP_FILENAME="drupal-backup.tar.gz"
+RESTORE_DEST_IN_CONTAINER="/tmp/$BACKUP_FILENAME"
+EXTRACT_DIR="/tmp/restore_temp"
+BACKUP_DIR_BASE="./backups"
+
+# --- DETERMINE BACKUP TO RESTORE ---
+if [ -n "$MANUAL_BACKUP_PATH" ]; then
+  BACKUP_PATH="$MANUAL_BACKUP_PATH"
+else
+  # Find the most recent backup directory
+  LATEST_BACKUP_DIR=$(ls -td "$BACKUP_DIR_BASE"/*/ 2>/dev/null | head -n 1)
+  if [ -z "$LATEST_BACKUP_DIR" ]; then
+    echo "Error: No backups found in $BACKUP_DIR_BASE"
+    exit 1
+  fi
+  # Remove trailing slash provided by ls -d */
+  LATEST_BACKUP_DIR=${LATEST_BACKUP_DIR%/}
+  BACKUP_PATH="$LATEST_BACKUP_DIR/$BACKUP_FILENAME"
+  echo "Found latest backup: $BACKUP_PATH"
+fi
 
 if [ ! -f "$BACKUP_PATH" ]; then
-  echo "Error: $BACKUP_FILENAME not found in $1"
+  echo "Error: Backup file not found at $BACKUP_PATH"
   exit 1
 fi
 
@@ -36,7 +57,7 @@ run_in_container() {
 }
 
 # --- MAIN LOGIC ---
-echo "Starting restore process for dev environment..."
+echo "Starting restore process for stack '$STACK_NAME'..."
 
 echo "Step 1: Preparing settings.php..."
 run_in_container cp /app/web/sites/default/default.settings.php /app/web/sites/default/settings.php
