@@ -2,7 +2,7 @@ services:
   drupal_cms:
     # Use the custom Drupal CMS image with pre-installed dependencies
     # pulled from Docker Hub:
-    image: ttrelvik/drupal-cms:1.2.x-10b
+    image: ttrelvik/drupal-cms:1.2.x-10c
     volumes:
       # Mount the entire sites/default directory for persistence
       - drupal_sites_default:/app/web/sites/default
@@ -55,7 +55,8 @@ services:
       # Init script for pgvector to create extension on DB creation
       - ./.docker/pg-init:/docker-entrypoint-initdb.d
     secrets:
-      - drupal_cms-dev_postgres_password
+      - source: drupal_cms-dev_postgres_password
+        target: drupal_cms-postgres_password
     # Use .env file for non-sensitive environment variables
     env_file:
       - dev.env                                       # use dev.env for dev

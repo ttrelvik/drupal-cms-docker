@@ -77,7 +77,7 @@ run_in_container tar -xzf "$RESTORE_DEST_IN_CONTAINER" -C "$EXTRACT_DIR"
 
 echo "Step 4: Restoring the database..."
 run_in_container drush sql:drop -y
-run_in_container sh -c "drush sql:cli < $EXTRACT_DIR/database/database.sql 2>/dev/null"
+run_in_container sh -c "drush sql:cli < $EXTRACT_DIR/database/database.sql"
 
 echo "Step 5: Restoring the files..."
 run_in_container rsync -a --delete "$EXTRACT_DIR/files/" /app/web/sites/default/files/
