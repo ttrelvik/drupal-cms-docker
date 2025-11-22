@@ -1,4 +1,4 @@
-uuid: 235105b7-0ed3-4a94-acda-8e7247e7dbe1
+uuid: 5555cf1c-f92a-4448-b46f-7d4818a94501
 langcode: en
 status: true
 dependencies:
@@ -24,15 +24,15 @@ settings:
   default_username: ''
   use_avatar: 0
   default_avatar: ''
-  first_message: "Hi, I can answer questions about Tom's projects or any other content on this site. What would you like to talk about?"
+  first_message: "Hi, I can chat with you about Tom's projects or any other content on this site. Let me know if you have any questions!"
   stream: null
   toggle_state: remember
   width: auto
   height: 100%
   placement: bottom-right
   show_structured_results: false
-  show_copy_icon: true
+  show_copy_icon: false
   collapse_minimal: false
   style_file: 'module:ai_chatbot:bard.yml'
-  verbose_mode: true
+  verbose_mode: false
 visibility: {  }

@@ -39,7 +39,7 @@ if (getenv('DB_NAME')) {
 
 // --- Read Password from Docker Secret ---
 // Check if the secret file exists and override the password.
-$secret_path = '/run/secrets/drupal_cms-dev_postgres_password';
+$secret_path = '/run/secrets/drupal_cms-postgres_password';
 if (file_exists($secret_path)) {
   $databases['default']['default']['password'] = trim(file_get_contents($secret_path));
 }

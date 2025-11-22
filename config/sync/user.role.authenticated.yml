@@ -5,6 +5,7 @@ dependencies:
   config:
     - dashboard.dashboard.welcome
   module:
+    - ai_chatbot
     - captcha
     - coffee
     - dashboard
@@ -23,6 +24,7 @@ is_admin: false
 permissions:
   - 'access coffee'
   - 'access content'
+  - 'access deepchat api'
   - 'bypass honeypot protection'
   - 'delete own files'
   - 'skip CAPTCHA'
