@@ -2,7 +2,7 @@ services:
   drupal_cms:
     # Use the custom Drupal CMS image with pre-installed dependencies
     # pulled from Docker Hub:
-    image: ttrelvik/drupal-cms:1.2.x-7
+    image: ttrelvik/drupal-cms:1.2.x-10e
     volumes:
       # Mount the entire sites/default directory for persistence
       - drupal_sites_default:/app/web/sites/default
@@ -10,6 +10,8 @@ services:
       - ./secrets/saml:/etc/ssl/private
     secrets:
       - drupal_cms-postgres_password
+      - gemini_api_key
+      - openai_api_key
     # Use .env file for non-sensitive environment variables
     env_file:
       - .env
@@ -45,9 +47,11 @@ services:
         - "traefik.http.middlewares.redirect-to-blog.redirectregex.permanent=true"
 
   db:
-    image: postgres:16
+    image: pgvector/pgvector:0.8.1-pg16-trixie
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      # Init script for pgvector to create extension on DB creation
+      - ./.docker/pg-init:/docker-entrypoint-initdb.d
     secrets:
       - drupal_cms-postgres_password
     # Use .env file for non-sensitive environment variables
@@ -59,13 +63,17 @@ services:
       replicas: 1
 
 volumes:
-  postgres_data:
-    name: drupal-cms-docker_postgres_data
   drupal_sites_default:
     name: drupal-cms-docker_drupal_sites_default
+  postgres_data:
+    name: drupal-cms-docker_postgres_data
 
 secrets:
   drupal_cms-postgres_password:
+    external: true
+  gemini_api_key:
+    external: true
+  openai_api_key:
     external: true
 
 networks:
