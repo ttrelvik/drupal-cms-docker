@@ -33,6 +33,10 @@ RUN composer require \
     "drush/drush:^13.6" \
     "drupal/ai_vdb_provider_postgres:^1.0@alpha" \
     "drupal/gemini_provider:^1.0@beta" \
+    "drupal/asset_injector:^2.21" \
+    "drupal/ai_summarize_document:^1.1" \
+    "drupal/ai_seo:^1.0" \
+    "drupal/metatag_ai:^1.0" \
     --dev
 
 # Stage 2: Build the production environment base. This is kept separate for clarity and caching.

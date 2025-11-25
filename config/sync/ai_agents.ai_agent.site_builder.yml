@@ -1,0 +1,23 @@
+uuid: 3a24fb7b-019f-44ef-996a-505dd8667fec
+langcode: en
+status: true
+dependencies: {  }
+id: site_builder
+label: 'Site Builder'
+description: ''
+system_prompt: ''
+secured_system_prompt: null
+tools:
+  'ai_agents::ai_agent::content_type_agent_triage': true
+  'ai_agents::ai_agent::field_agent_triage': true
+  'ai_agents::ai_agent::taxonomy_agent_config': true
+tool_settings: null
+orchestration_agent: true
+triage_agent: false
+max_loops: 3
+default_information_tools: null
+tool_usage_limits: {  }
+exclude_users_role: false
+masquerade_roles: {  }
+structured_output_enabled: null
+structured_output_schema: null

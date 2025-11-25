@@ -6,6 +6,7 @@ dependencies:
     - field.field.node.blog.field_content
     - field.field.node.blog.field_description
     - field.field.node.blog.field_featured_image
+    - field.field.node.blog.field_metatag
     - field.field.node.blog.field_tags
     - node.type.blog
     - views.view.blog
@@ -13,6 +14,7 @@ dependencies:
     - layout_builder
     - layout_discovery
     - media
+    - metatag
     - text
     - user
     - views
@@ -99,6 +101,21 @@ third_party_settings:
                 third_party_settings: {  }
             weight: 4
             additional: {  }
+          193abb16-1f3c-472e-96d7-249c130df792:
+            uuid: 193abb16-1f3c-472e-96d7-249c130df792
+            region: content
+            configuration:
+              id: 'field_block:node:blog:field_metatag'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: metatag_empty_formatter
+                label: above
+                settings: {  }
+                third_party_settings: {  }
+            weight: 7
+            additional: {  }
         third_party_settings: {  }
 _core:
   default_config_hash: Nsj0fGzEHjYTskZRptiITSTmBWxFcslFNfKyJHjXTzs
@@ -130,6 +147,13 @@ content:
     third_party_settings: {  }
     weight: 0
     region: content
+  field_metatag:
+    type: metatag_empty_formatter
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 3
+    region: content
   field_tags:
     type: entity_reference_label
     label: inline
@@ -142,3 +166,4 @@ hidden:
   field_description: true
   layout_builder__layout: true
   links: true
+  search_api_excerpt: true

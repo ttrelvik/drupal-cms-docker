@@ -7,6 +7,7 @@ dependencies:
     - field.field.node.blog.field_content
     - field.field.node.blog.field_description
     - field.field.node.blog.field_featured_image
+    - field.field.node.blog.field_metatag
     - field.field.node.blog.field_tags
     - node.type.blog
   module:
@@ -42,6 +43,8 @@ content:
 hidden:
   content_moderation_control: true
   field_content: true
+  field_metatag: true
   field_tags: true
   layout_builder__layout: true
   links: true
+  search_api_excerpt: true

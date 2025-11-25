@@ -1,0 +1,72 @@
+uuid: 3fe69ab4-632e-4293-b22d-a6fede186320
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: Rmb_8NaV-1eMqccRmTU6xWubohQ0ACoEB9-Ph6sjJVA
+id: natural_language
+label: 'Natural language use'
+description: 'Analyze the natural language use, readability, and conversational tone for SEO best practices.'
+prompt: |
+  **Objective:** Assume the role of a Content Readability and Natural Language SEO Specialist. Your task is to conduct a focused "Detailed Content Analysis" of the provided HTML page content, specifically evaluating its **Natural Language Use**.  The primary goal is to assess the content\'s readability, conversational tone, and seamless integration of keywords, and to recommend actionable improvements that enhance user engagement and usability in search, particularly in generative search results.
+
+  **Context:** You are analyzing the textual content extracted from an HTML page (provided separately). Your sole focus is on the *linguistic qualities* of the text – how natural, readable, and user-friendly it is. Disregard other SEO elements for this specific analysis.
+
+  **Instructions:**
+
+  Perform a detailed linguistic analysis of the HTML page content, concentrating solely on the following aspects related to Natural Language Use:
+
+  1.  **Current State Assessment - Natural Language & Readability Metrics:**
+
+      *   **Evaluate Readability:** Assess the overall readability of the content. Consider:
+          *   **Sentence Structure:** Analyze sentence length and complexity. Are sentences concise and easy to follow, or are they overly long and convoluted?
+          *   **Vocabulary and Language Complexity:**  Evaluate the vocabulary used. Is it accessible to a broad audience, or is it overly technical or jargon-heavy?
+          *   **Flow and Coherence:** Assess the logical flow of ideas and the coherence of the writing. Does the content progress smoothly and logically?
+      *   **Assess Conversational Tone:** Evaluate the tone of the writing. Is it conversational and engaging, or does it sound formal, robotic, or overly promotional?
+          *   **Use of Personal Pronouns & Direct Address:**  Is there use of "you," "we," "us," to create a more direct and personal connection with the reader?
+          *   **Sentence Variety & Rhythm:** Is there variety in sentence structure to maintain reader interest and avoid monotony?
+          *   **Engagement Techniques:** Are there elements that encourage user engagement (e.g., rhetorical questions, calls to action – though focus primarily on *tone* for this section)?
+      *   **Keyword Integration Naturalness:**  Analyze how keywords are integrated into the text.
+          *   **Seamlessness of Keyword Incorporation:** Do keywords blend naturally into the surrounding text, or do they sound forced, unnatural, or "stuffed"?
+          *   **Contextual Relevance of Keywords:** Are keywords used in a contextually relevant and meaningful way?
+          *   **Avoidance of Keyword Stuffing:** Is there evidence of keyword stuffing or overuse that detracts from readability?
+      *   **Readability Score (Optional, if Feasible):**  If possible within your capabilities, provide an estimated readability score (e.g., Flesch Reading Ease, Flesch-Kincaid Grade Level) to quantify the content\'s readability level (note: this is less critical than qualitative assessment).
+
+  2.  **Actionable Improvement Recommendations - Enhancing Natural Language & Readability:**
+
+      *   **Readability Enhancement Strategies:**  Propose concrete, actionable strategies to improve the readability of the content. Be specific. Examples:
+          *   **Sentence Simplification:**  Identify specific sentences or paragraphs that are overly complex and suggest simplified rewrites.
+          *   **Vocabulary Adjustment:** Recommend replacing jargon or technical terms with more accessible language where appropriate.
+          *   **Paragraph Restructuring for Flow:** Suggest reordering or restructuring paragraphs to improve the logical flow and coherence of the content.
+      *   **Conversational Tone Improvement Strategies:** Recommend specific techniques to inject a more conversational and engaging tone. Examples:
+          *   **Incorporating Conversational Phrases:** Suggest adding phrases that mimic natural speech patterns.
+          *   **Using More Active Voice:** Recommend shifting from passive to active voice for more direct and engaging writing.
+          *   **Injecting Personality (Where Appropriate):** Suggest ways to infuse the content with a more distinct brand voice or personality (while maintaining professionalism).
+      *   **Keyword Integration Refinement Strategies:** Provide actionable strategies for improving keyword integration. Examples:
+          *   **Natural Keyword Rephrasing:** Suggest rephrasing sentences to incorporate keywords more naturally.
+          *   **Synonym and Latent Semantic Keyword Use:** Recommend using synonyms and related terms to broaden keyword coverage without repetition.
+          *   **Contextual Keyword Placement Guidance:** Provide guidance on ensuring keywords are placed within contextually relevant sections of the text.
+
+  3.  **Justification - User Engagement & SEO Benefits of Natural Language:**
+
+      *   **Explain User Engagement Benefits:** Clearly articulate *why* natural language and readability are crucial for user engagement and user experience. Specifically address:
+          *   **Improved User Comprehension:** Explain how clear, natural language enhances user understanding and information retention.
+          *   **Increased User Time on Page & Reduced Bounce Rate:** Discuss how readable and engaging content keeps users on the page longer and reduces bounce rates.
+          *   **Enhanced User Satisfaction & Trust:** Explain how user-friendly language contributes to user satisfaction and builds trust in the website\'s content.
+      *   **Explain SEO Benefits (Direct & Indirect):** Clearly explain *how* natural language and readability benefit SEO, both directly and indirectly. Specifically address:
+          *   **User-Centric Ranking Factors:** Explain how user engagement metrics (influenced by readability) are increasingly important ranking signals.
+          *   **Performance in Generative Search:** Discuss the importance of natural language for performing well in generative search results and conversational interfaces.
+          *   **Semantic SEO & Contextual Relevance:** Explain how natural language and contextual keyword use align with semantic SEO principles and help search engines understand the *meaning* of the content.
+
+  **Report Output:**
+
+  Conclude your analysis with a concise report that includes:
+
+  *   **Readability Assessment Summary:** Summarize your overall assessment of the content\'s readability and natural language use, highlighting key strengths and weaknesses.
+  *   **Areas for Improvement - Natural Language Focus:** Clearly identify the primary areas where the natural language and readability of the content need improvement.
+  *   **Prioritized Actionable Recommendations:** Present a bulleted list of your most impactful and *actionable* recommendations for enhancing natural language use, readability, and conversational tone. Prioritize based on their potential to improve user engagement and SEO.
+  *   **Justification Summary:** Briefly summarize the key user engagement and SEO benefits of focusing on natural language optimization.
+
+  **Format:** Present your findings in a structured and professional format suitable for a focused content analysis report section.
+
+  **This analysis should provide a definitive evaluation and clear, actionable guidance for optimizing the HTML page content\'s natural language use to enhance user experience and SEO performance, particularly in the context of evolving search engine algorithms and generative search.**

@@ -6,12 +6,14 @@ dependencies:
     - field.field.node.blog.field_content
     - field.field.node.blog.field_description
     - field.field.node.blog.field_featured_image
+    - field.field.node.blog.field_metatag
     - field.field.node.blog.field_tags
     - node.type.blog
     - workflows.workflow.basic_editorial
   module:
     - content_moderation
     - media_library
+    - metatag
     - path
     - scheduler
     - tagify
@@ -51,6 +53,14 @@ content:
     region: content
     settings:
       media_types: {  }
+    third_party_settings: {  }
+  field_metatag:
+    type: metatag_firehose
+    weight: 51
+    region: content
+    settings:
+      sidebar: true
+      use_details: true
     third_party_settings: {  }
   field_tags:
     type: tagify_entity_reference_autocomplete_widget
@@ -142,9 +152,9 @@ content:
     third_party_settings: {  }
   url_redirects:
     weight: 50
+    region: content
     settings: {  }
     third_party_settings: {  }
-    region: content
 hidden:
   publish_state: true
   unpublish_state: true

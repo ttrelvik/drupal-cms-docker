@@ -1,0 +1,6 @@
+metatag_ai:
+  metadata_content_types:
+    blog: blog
+    page: 0
+    project: 0
+  metadata_field_id: field_metatag

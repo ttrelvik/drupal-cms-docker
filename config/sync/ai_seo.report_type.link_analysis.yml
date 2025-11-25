@@ -1,0 +1,84 @@
+uuid: 8328e692-fa26-453b-85c2-9eb6dfd28b42
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: NcGK0KcIO7c_aQaimoMKV-2O7u1dpk_k_xZKbRrnrqU
+id: link_analysis
+label: 'Link analysis'
+description: 'Analyze the use of internal and external links for SEO best practices.'
+prompt: |
+  **Objective:** Step into the role of a seasoned Link Building and Technical SEO Specialist. Your mission is to perform a comprehensive "Link Analysis SEO Audit" of the provided HTML page content, focusing on both **Internal and External Links**. The primary goal is to evaluate the current linking practices, identify areas for improvement, and deliver actionable recommendations to enhance site navigation, authority distribution, and overall SEO performance through strategic linking.
+
+  **Context:** You are examining the HTML code of a webpage (provided separately).  Your analysis should be strictly limited to the **link elements** within this HTML – both internal links (linking to other pages within the same domain) and external links (linking to pages on different domains).  Disregard other aspects of the HTML content for this focused audit.
+
+  **Instructions:**
+
+  Conduct a detailed analysis of the HTML page content, specifically evaluating the following aspects related to Link Analysis (Internal & External):
+
+  1.  **Current State Assessment - Internal Link Quality & Structure:**
+
+      *   **Evaluate Internal Link Relevance:** Assess the relevance and contextual appropriateness of internal links within the content. Consider:
+          *   **Contextual Linking:** Are internal links placed naturally within the text and relevant to the surrounding content?
+          *   **User Value of Internal Links:** Do internal links genuinely guide users to helpful and related content within the website?
+          *   **Avoidance of Excessive or Forced Linking:** Is internal linking done strategically and purposefully, or is it excessive or forced?
+      *   **Assess Internal Link Anchor Text:** Analyze the anchor text used for internal links. Consider:
+          *   **Relevance of Anchor Text:** Is the anchor text relevant to the target page and the linking context?
+          *   **Variety and Naturalness of Anchor Text:** Is there a natural variation in anchor text, or is it overly optimized or repetitive?
+          *   **Informative Anchor Text:** Is the anchor text descriptive and informative, giving users an idea of what to expect on the linked page?
+      *   **Evaluate Contribution to Site Structure (Implicit from Internal Links):**  While you are only analyzing a single page\'s HTML, infer from the *types* of internal links present whether they contribute to a logical and navigable site structure (e.g., links to category pages, related content, etc.).
+
+  2.  **Current State Assessment - External Link Quality & Relevance:**
+
+      *   **Evaluate External Link Quality and Authority:** Assess the quality and authority of the websites being linked to externally. Consider:
+          *   **Relevance of External Links:** Are external links relevant to the page\'s topic and provide valuable supplementary information for users?
+          *   **Authority and Credibility of Linked Domains:** Are external links pointing to reputable, authoritative, and trustworthy websites within the relevant industry or niche?
+          *   **Avoidance of Low-Quality or Spammy Links:** Are there any external links that appear to be low-quality, irrelevant, or potentially spammy?
+      *   **Assess External Link Anchor Text:** Analyze the anchor text used for external links. Consider:
+          *   **Naturalness and Branding (Where Applicable):** Is the anchor text natural and, where appropriate, brand-focused when linking to external resources?
+          *   **Avoidance of Over-Optimization:** Is the anchor text for external links not overly optimized or aggressively keyword-rich?
+          *   **Clarity and User Expectation:** Does the anchor text clearly indicate that it is linking to an external website?
+
+  3.  **Broken Link Identification:**
+
+      *   **Identify Broken Links (If Detectable from HTML):** Analyze the HTML for any indications of broken links (e.g., links to resources that are likely to be outdated or removed – though full broken link checking is beyond the scope of HTML analysis alone, flag any obvious potential issues).
+      *   **Suggest Tools/Methods for Comprehensive Broken Link Checking:** Recommend Drupal-specific tools or general methods for conducting a thorough broken link check across the entire website (as a follow-up action beyond this HTML-specific audit).
+
+  4.  **Actionable Improvement Recommendations - Enhancing Linking Practices:**
+
+      *   **Internal Linking Strategy Enhancement:** Propose concrete, actionable strategies to improve internal linking. Be specific. Examples:
+          *   **Contextual Internal Link Insertion:** Recommend specific points within the content where relevant internal links could be added to related pages.
+          *   **Anchor Text Optimization for Internal Links:**  Suggest improved anchor text examples for existing or newly proposed internal links, emphasizing relevance and clarity.
+          *   **Content Clustering/Pillar Page Strategy (Inferred):**  If the content suggests it could be part of a broader topic cluster, recommend developing a pillar page and related cluster content with strategic internal linking.
+      *   **External Linking Best Practices:**  Provide actionable recommendations for improving external linking practices. Examples:
+          *   **Identifying Authoritative External Resources:** Suggest types of authoritative external resources that could be linked to enhance credibility and user value.
+          *   **External Link Anchor Text Guidelines:** Provide guidelines for choosing appropriate and natural anchor text for external links.
+          *   **Link Out to Complementary Content:** Recommend linking to high-quality external content that complements and expands upon the topics covered on the page.
+      *   **Broken Link Remediation Plan:** Outline a clear plan for identifying and fixing broken links on the website, including tool recommendations and ongoing maintenance suggestions.
+
+  5.  **Justification - SEO and User Benefit of Strategic Linking:**
+
+      *   **Explain SEO Benefits of Internal Linking:** Clearly articulate *why* strategic internal linking is crucial for SEO performance. Specifically address:
+          *   **Site Structure & Crawlability:** Explain how internal links improve site structure and make it easier for search engines to crawl and index website content.
+          *   **Link Equity Distribution & PageRank Flow:** Discuss how internal links distribute link equity (PageRank) throughout the website, boosting the authority of important pages.
+          *   **Keyword Relevance & Topical Depth Signals:** Explain how relevant internal links reinforce keyword relevance and signal topical depth to search engines.
+      *   **Explain SEO Benefits of External Linking:** Clearly articulate *why* strategic external linking is beneficial for SEO. Specifically address:
+          *   **Authority Building & Credibility Signals:** Explain how linking to authoritative external websites enhances the credibility and trustworthiness of your own content.
+          *   **Content Quality & User Value Perception:** Discuss how relevant external links improve the perceived quality and value of your content by providing users with access to additional resources.
+          *   **Potential for Backlink Acquisition (Indirect):**  Mention the indirect potential for building relationships and even earning backlinks by linking to and referencing other authoritative websites in your niche.
+      *   **Explain User Benefits of Both Internal & External Linking:**  Clearly articulate *how* both internal and external links improve user experience. Specifically address:
+          *   **Enhanced Navigation & User Flow (Internal):** Explain how internal links improve website navigation and help users find related content easily.
+          *   **Access to Further Information & Resources (External):** Discuss how external links provide users with access to valuable supplementary information and resources beyond your own website, increasing user value.
+
+  **Report Output:**
+
+  Conclude your analysis with a concise report that includes:
+
+  *   **Summary of Current Linking Practices:** Briefly summarize the current state of internal and external linking on the analyzed HTML page, highlighting key strengths and weaknesses.
+  *   **Broken Link Status & Recommendations:** Report on any potential broken links identified and recommend tools/methods for a full site check.
+  *   **Prioritized Actionable Recommendations:** Present a bulleted list of your most impactful and *actionable* recommendations for improving both internal and external linking practices. Prioritize recommendations based on their potential to enhance SEO and user experience.
+  *   **Justification Summary:** Briefly summarize the key SEO and user benefits of focusing on strategic linking.
+
+  **Format:** Present your findings in a structured and professional format suitable for a focused Link Analysis SEO audit report section.
+
+  **This analysis should provide a definitive evaluation and clear, actionable guidance for optimizing the HTML page content\'s internal and external linking practices to enhance SEO performance, site navigation, and user experience.**

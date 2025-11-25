@@ -4,10 +4,17 @@ module:
   add_content_by_bundle: 0
   ai: 0
   ai_agents: 0
+  ai_agents_explorer: 0
   ai_assistant_api: 0
+  ai_automators: 0
   ai_chatbot: 0
+  ai_ckeditor: 0
+  ai_content_suggestions: 0
+  ai_image_alt_text: 0
   ai_provider_openai: 0
   ai_search: 0
+  ai_seo: 0
+  ai_summarize_document: 0
   ai_vdb_provider_postgres: 0
   announcements_feed: 0
   automated_cron: 0
@@ -71,6 +78,8 @@ module:
   menu_link_attributes: 0
   menu_link_content: 0
   menu_ui: 0
+  metatag: 0
+  metatag_ai: 0
   modeler_api: 0
   navigation: 0
   node: 0
