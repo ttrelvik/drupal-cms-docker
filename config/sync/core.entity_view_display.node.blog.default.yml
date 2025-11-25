@@ -101,8 +101,8 @@ third_party_settings:
                 third_party_settings: {  }
             weight: 4
             additional: {  }
-          193abb16-1f3c-472e-96d7-249c130df792:
-            uuid: 193abb16-1f3c-472e-96d7-249c130df792
+          f2cf3f95-90c5-4648-a017-933a78631ce4:
+            uuid: f2cf3f95-90c5-4648-a017-933a78631ce4
             region: content
             configuration:
               id: 'field_block:node:blog:field_metatag'
