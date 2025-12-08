@@ -2,7 +2,7 @@ services:
   drupal_cms:
     # Use the custom Drupal CMS image with pre-installed dependencies
     # pulled from Docker Hub:
-    image: ttrelvik/drupal-cms:1.2.x-12a
+    image: ttrelvik/drupal-cms:1.2.x-13
     volumes:
       # Mount the entire sites/default directory for persistence
       - drupal_sites_default:/app/web/sites/default
