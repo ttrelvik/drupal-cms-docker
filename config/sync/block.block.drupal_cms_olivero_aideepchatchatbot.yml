@@ -27,8 +27,8 @@ settings:
   first_message: "Hi, I can chat with you about Tom's projects or any other content on this site. Let me know if you have any questions!"
   stream: null
   toggle_state: remember
-  width: auto
-  height: 100%
+  width: 350px
+  height: 80vh
   placement: bottom-right
   show_structured_results: false
   show_copy_icon: false
