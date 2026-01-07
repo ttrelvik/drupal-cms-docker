@@ -24,12 +24,12 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Create the project, but do not install dependencies yet.
 # The --no-install flag is key to preventing a premature lock file.
-RUN composer create-project drupal/cms:^1.2 . --no-install
+# PIN to 1.2.8 to bypass a broken metadata issue in 1.2.9 and 1.2.10
+RUN composer create-project drupal/cms:^1.2.8 . --no-install
 
-# Now, add all required packages to composer.json, and then run a single,
-# comprehensive update to resolve and install everything at once.
+# Add required Drupal modules via Composer without installing yet.
 RUN composer require \
-    "drupal/samlauth:^3.11" \
+    "drupal/samlauth:^3.13" \
     "drush/drush:^13.6" \
     "drupal/ai_vdb_provider_postgres:^1.0@alpha" \
     "drupal/gemini_provider:^1.0@beta" \
@@ -37,7 +37,10 @@ RUN composer require \
     "drupal/ai_summarize_document:^1.1" \
     "drupal/ai_seo:^1.0" \
     "drupal/metatag_ai:^1.0" \
-    --dev
+    --update-no-dev --no-install
+
+# Now install all dependencies without dev packages and optimize the autoloader.
+RUN composer install --no-dev --optimize-autoloader
 
 # Stage 2: Build the production environment base. This is kept separate for clarity and caching.
 FROM php:8.3-fpm-bookworm AS drupal_app_base
