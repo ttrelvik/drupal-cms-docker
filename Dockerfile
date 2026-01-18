@@ -30,7 +30,7 @@ RUN composer create-project drupal/cms:^1.2.8 . --no-install
 # Add required Drupal modules via Composer without installing yet.
 RUN composer require \
     "drupal/samlauth:^3.13" \
-    "drush/drush:^13.6" \
+    "drush/drush:^13.7" \
     "drupal/ai_vdb_provider_postgres:^1.0@alpha" \
     "drupal/gemini_provider:^1.0@beta" \
     "drupal/asset_injector:^2.21" \
