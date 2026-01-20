@@ -1,0 +1,29 @@
+uuid: 639a5f26-f5db-4cf6-a9d0-bfdb37e269d2
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.secondary
+  module:
+    - system
+_core:
+  default_config_hash: X6uODG7DvzG3J24YoCSM1Tdw1KPfaTXd1w7TX5zfGEU
+label: 'Secondary navigation'
+id: block.system_menu_block.secondary
+source: block
+source_local_id: 'system_menu_block:secondary'
+provider: system
+active_version: 2f5ebe22feed1255
+versioned_properties:
+  active:
+    settings:
+      default_settings:
+        id: 'system_menu_block:secondary'
+        label: 'Secondary navigation'
+        label_display: '0'
+        provider: system
+        level: 1
+        depth: null
+        expand_all_items: false
+    fallback_metadata:
+      slot_definitions: null

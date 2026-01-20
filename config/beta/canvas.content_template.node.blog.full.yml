@@ -1,0 +1,103 @@
+uuid: 40777b43-cb65-439a-a933-394bdcc9db67
+langcode: en
+status: true
+dependencies:
+  config:
+    - canvas.component.block.system_breadcrumb_block
+    - canvas.component.block.views_block.blog-related
+    - canvas.component.sdc.byte_theme.button
+    - canvas.component.sdc.byte_theme.cta
+    - canvas.component.sdc.byte_theme.heading
+    - canvas.component.sdc.byte_theme.hero-blog
+    - canvas.component.sdc.byte_theme.image
+    - canvas.component.sdc.byte_theme.section
+    - canvas.component.sdc.byte_theme.text
+    - core.entity_view_mode.node.full
+    - field.field.media.image.field_media_image
+    - field.field.node.blog.field_blog__byline
+    - field.field.node.blog.field_content
+    - field.field.node.blog.field_featured_image
+    - filter.format.content_format
+    - image.style.canvas_parametrized_width
+    - media.type.image
+    - node.type.blog
+  module:
+    - file
+    - media
+    - node
+    - options
+_core:
+  default_config_hash: W5EKb9Np4dnBuA2JMFvzkxScXESOBrD502wtkQNSqDY
+id: node.blog.full
+content_entity_type_id: node
+content_entity_type_bundle: blog
+content_entity_type_view_mode: full
+component_tree:
+  0:
+    uuid: 92e68054-9f78-4420-8752-96ec693d2fa9
+    component_id: block.system_breadcrumb_block
+    component_version: ad6359c331fc7c45
+    inputs: '{"label":"Breadcrumbs","label_display":"0"}'
+  1:
+    uuid: 4e32407b-d45c-4b49-bfa6-33716f9bd4d2
+    component_id: sdc.byte_theme.hero-blog
+    component_version: 05e599bf4ee454d5
+    inputs: '{"heading_text":{"sourceType":"dynamic","expression":"\u2139\ufe0e\u241centity:node:blog\u241dtitle\u241e\u241fvalue"},"level":1,"date":{"sourceType":"dynamic","expression":"\u2139\ufe0e\u241centity:node:blog\u241dcreated\u241e\u241fvalue"},"author":{"sourceType":"dynamic","expression":"\u2139\ufe0e\u241centity:node:blog\u241dfield_blog__byline\u241e\u241fvalue"}}'
+  '1:blog_media:0':
+    parent_uuid: 4e32407b-d45c-4b49-bfa6-33716f9bd4d2
+    slot: blog_media
+    uuid: 59a40305-ae72-4f38-b1fd-19e1513faf13
+    component_id: sdc.byte_theme.image
+    component_version: 683c28ae4489062f
+    inputs: '{"media":{"sourceType":"dynamic","expression":"\u2139\ufe0e\u241centity:node:blog\u241dfield_featured_image\u241e\u241fentity\u241c\u241centity:media:image\u241dfield_media_image\u241e\u241f{src\u21a0src_with_alternate_widths,alt\u21a0alt,width\u21a0width,height\u21a0height}"},"size":"16:9"}'
+  2:
+    uuid: ea40592d-2c03-45e8-9c19-a66a96a59ec9
+    component_id: sdc.byte_theme.section
+    component_version: 5ef4c2af9bd07348
+    inputs: '{"columns":"100","section_header":true,"section_footer":true,"margin_block_start":"0","margin_block_end":"0","mobile_columns":1,"width":"75%","padding_block_start":"0","padding_block_end":"64","background_color":"accent"}'
+  '2:main_slot:0':
+    parent_uuid: ea40592d-2c03-45e8-9c19-a66a96a59ec9
+    slot: main_slot
+    uuid: caa1e4b2-d58b-4140-b99b-ab3e1ce55ad5
+    component_id: sdc.byte_theme.text
+    component_version: 21cbfe93d4622099
+    inputs: '{"text":{"sourceType":"dynamic","expression":"\u2139\ufe0e\u241centity:node:blog\u241dfield_content\u241e\u241fprocessed"},"text_size":"normal","text_color":"inverted"}'
+  3:
+    uuid: d371f39b-3ad5-4920-afb1-23320aa47c8a
+    component_id: sdc.byte_theme.section
+    component_version: 5ef4c2af9bd07348
+    inputs: '{"width":"100%","columns":"100","mobile_columns":"1","margin_block_start":"0","margin_block_end":"0","padding_block_start":"64","padding_block_end":"64","background_color":"muted","section_header":true,"section_footer":true,"views_columns":"33-33-33"}'
+  '3:header_slot:0':
+    parent_uuid: d371f39b-3ad5-4920-afb1-23320aa47c8a
+    slot: header_slot
+    uuid: 1dfd51a0-5209-45e4-968b-57732f763e7f
+    component_id: sdc.byte_theme.heading
+    component_version: 80684659bfb1ef65
+    inputs: '{"heading_text":"More insights","level":2,"text_size":"default","text_color":"default","align":"center"}'
+  '3:main_slot:0':
+    parent_uuid: d371f39b-3ad5-4920-afb1-23320aa47c8a
+    slot: main_slot
+    uuid: 0ab08fa6-8f5f-40f5-a662-cb824f8893f2
+    component_id: block.views_block.blog-related
+    component_version: d30c747ee7b1d2d7
+    inputs: '{"label":"Blog: Related blog posts","label_display":"0","views_label":"","items_per_page":null}'
+  4:
+    uuid: 4305752c-db60-48dc-837b-c7a12dd656fe
+    component_id: sdc.byte_theme.cta
+    component_version: 2b510bc2d13c6354
+    inputs: '{"heading_text":"Get ready to transform your operations","level":2,"text":"Sign up for a free trial and discover a world of possibilities to elevate your outreach and engagement strategies","text_align":"center"}'
+  '4:actions:0':
+    parent_uuid: 4305752c-db60-48dc-837b-c7a12dd656fe
+    slot: actions
+    uuid: 766d0781-cae3-471f-8d43-0f5f27659fbb
+    component_id: sdc.byte_theme.button
+    component_version: 8c253a9827f0ca84
+    inputs: '{"variant":"primary","size":"medium","disabled":false,"label":"Get started","icon":"arrow-right","icon_first":false}'
+  '4:actions:1':
+    parent_uuid: 4305752c-db60-48dc-837b-c7a12dd656fe
+    slot: actions
+    uuid: f61ffe08-6016-458e-b19f-7bef09f26382
+    component_id: sdc.byte_theme.button
+    component_version: 8c253a9827f0ca84
+    inputs: '{"variant":"secondary","size":"medium","disabled":false,"label":"Learn more","icon":"arrow-right","icon_first":false}'
+exposed_slots: {  }

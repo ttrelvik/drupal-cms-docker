@@ -1,0 +1,31 @@
+uuid: 8afe96bb-61cb-46a0-a0c9-e841eeec9804
+langcode: en
+status: true
+dependencies:
+  config:
+    - canvas.component.sdc.byte_theme.card
+    - core.entity_view_mode.node.card
+    - field.field.media.image.field_media_image
+    - field.field.node.blog.field_description
+    - field.field.node.blog.field_featured_image
+    - image.style.canvas_parametrized_width
+    - media.type.image
+    - node.type.blog
+  module:
+    - file
+    - media
+    - node
+    - options
+_core:
+  default_config_hash: RHT2oiFuBQ8qu_wQibdaAhwOpugTTuV-Vy2xDjbTGWY
+id: node.blog.card
+content_entity_type_id: node
+content_entity_type_bundle: blog
+content_entity_type_view_mode: card
+component_tree:
+  -
+    uuid: c8e8a6d9-6b30-4cf0-a8df-299f290da17d
+    component_id: sdc.byte_theme.card
+    component_version: c2df9c05dfd64ddf
+    inputs: '{"heading_text":{"sourceType":"dynamic","expression":"\u2139\ufe0e\u241centity:node:blog\u241dtitle\u241e\u241fvalue"},"level":3,"url":{"sourceType":"host-entity-url","absolute":true},"media":{"sourceType":"dynamic","expression":"\u2139\ufe0e\u241centity:node:blog\u241dfield_featured_image\u241e\u241fentity\u241c\u241centity:media:image\u241dfield_media_image\u241e\u241f{src\u21a0src_with_alternate_widths,alt\u21a0alt,width\u21a0width,height\u21a0height}"},"text":{"sourceType":"dynamic","expression":"\u2139\ufe0e\u241centity:node:blog\u241dfield_description\u241e\u241fvalue"},"orientation":"vertical","style":"framed","background":"default"}'
+exposed_slots: {  }

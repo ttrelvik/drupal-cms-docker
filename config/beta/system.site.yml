@@ -1,0 +1,15 @@
+_core:
+  default_config_hash: HlN7eAN2N4JIHsYv56V4E7sqC9bS609KwvGFjyD_mgk
+langcode: en
+uuid: f6cab36a-0002-4b2c-a7db-e932c4c0911b
+name: beta-blog.trelvik.net
+mail: tom@trelvik.net
+slogan: ''
+page:
+  403: /user/login
+  404: /404
+  front: /page/7
+admin_compact_mode: false
+weight_select_max: 100
+default_langcode: en
+mail_notification: null

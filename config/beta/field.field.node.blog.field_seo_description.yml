@@ -1,0 +1,21 @@
+uuid: 2c918d01-c881-449d-98b5-114b61112ac1
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_seo_description
+    - node.type.blog
+_core:
+  default_config_hash: JU-KrikKbi1obp9kI3OfOLmDiHUcQ4fWLMKxeBDEB2I
+id: node.blog.field_seo_description
+field_name: field_seo_description
+entity_type: node
+bundle: blog
+label: 'SEO description'
+description: 'Write a description for search engines and social media sites.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

@@ -1,0 +1,60 @@
+uuid: 7732c6b2-ff9d-4135-ad3e-9e0735ccc471
+langcode: en
+status: true
+dependencies:
+  config:
+    - filter.format.canvas_html_block
+  module:
+    - options
+    - text
+  theme:
+    - byte_theme
+_core:
+  default_config_hash: cja0ZcVYQFYTFoe1-SkR2BKKgz5r2pSQDXBD4jYakJU
+label: Text
+id: sdc.byte_theme.text
+source: sdc
+source_local_id: 'byte_theme:text'
+provider: byte_theme
+active_version: 21cbfe93d4622099
+versioned_properties:
+  active:
+    settings:
+      prop_field_definitions:
+        text:
+          required: false
+          field_type: text_long
+          field_storage_settings: {  }
+          field_instance_settings:
+            allowed_formats:
+              - canvas_html_block
+          field_widget: text_textarea
+          default_value:
+            -
+              value: '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tristique pretium pellentesque semper enim aliquam.</p>'
+              format: canvas_html_block
+          expression: ℹ︎text_long␟processed
+        text_size:
+          required: true
+          field_type: list_string
+          field_storage_settings:
+            allowed_values_function: canvas_load_allowed_values_for_component_prop
+          field_instance_settings: {  }
+          field_widget: options_select
+          default_value:
+            -
+              value: normal
+          expression: ℹ︎list_string␟value
+        text_color:
+          required: true
+          field_type: list_string
+          field_storage_settings:
+            allowed_values_function: canvas_load_allowed_values_for_component_prop
+          field_instance_settings: {  }
+          field_widget: options_select
+          default_value:
+            -
+              value: default
+          expression: ℹ︎list_string␟value
+    fallback_metadata:
+      slot_definitions: {  }

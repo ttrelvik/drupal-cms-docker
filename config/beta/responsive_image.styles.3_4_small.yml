@@ -1,0 +1,26 @@
+uuid: 1cf20154-2f8c-40a8-b67c-176b8d25957d
+langcode: en
+status: true
+dependencies:
+  config:
+    - image.style.3_4_225x300_focal_point_webp
+  module:
+    - eca_render
+  enforced:
+    config:
+      - eca.eca.define_breakpoints
+_core:
+  default_config_hash: _h1lyqAXmz_whO9B4WCEfblgVRW2EnIUXQFbymQZKyM
+id: 3_4_small
+label: '3:4 Small'
+image_style_mappings:
+  -
+    image_mapping_type: sizes
+    image_mapping:
+      sizes: 100vw
+      sizes_image_styles:
+        - 3_4_225x300_focal_point_webp
+    breakpoint_id: custom.sm
+    multiplier: 1x
+breakpoint_group: custom
+fallback_image_style: 3_4_225x300_focal_point_webp

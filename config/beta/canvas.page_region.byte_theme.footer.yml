@@ -1,0 +1,86 @@
+uuid: 0b4aa813-44fe-49dc-998f-62746a6eac67
+langcode: en
+status: true
+dependencies:
+  config:
+    - canvas.component.block.system_branding_block
+    - canvas.component.block.system_menu_block.footer
+    - canvas.component.block.system_menu_block.secondary
+    - canvas.component.block.system_menu_block.social
+    - canvas.component.block.webform_block
+    - canvas.component.sdc.byte_theme.footer
+    - canvas.component.sdc.byte_theme.heading
+    - canvas.component.sdc.byte_theme.text
+    - filter.format.canvas_html_block
+  module:
+    - options
+    - text
+  theme:
+    - byte_theme
+_core:
+  default_config_hash: k9d1Xwx9jt2WEkedZgGO59vv1J-i37eekO0_xOB3Ikc
+id: byte_theme.footer
+theme: byte_theme
+region: footer
+component_tree:
+  0:
+    uuid: b4ea9fb2-d3fc-428a-9114-bce92069cbab
+    component_id: sdc.byte_theme.footer
+    component_version: d696cea1796b650e
+    inputs: '{"align":true}'
+  '0:footer_first:0':
+    parent_uuid: b4ea9fb2-d3fc-428a-9114-bce92069cbab
+    slot: footer_first
+    uuid: cc01f585-46ec-48a4-90b6-570277d1f370
+    component_id: block.system_branding_block
+    component_version: b168140fdcaebae5
+    inputs: '{"label":"Site branding","label_display":"0","use_site_logo":true,"use_site_name":false,"use_site_slogan":false}'
+  '0:footer_first:1':
+    parent_uuid: b4ea9fb2-d3fc-428a-9114-bce92069cbab
+    slot: footer_first
+    uuid: fdcf2eb9-c422-4a13-8467-0407d8c2f127
+    component_id: block.system_menu_block.secondary
+    component_version: 2f5ebe22feed1255
+    inputs: '{"label":"Secondary","label_display":"0","level":1,"depth":null,"expand_all_items":false}'
+  '0:footer_first:2':
+    parent_uuid: b4ea9fb2-d3fc-428a-9114-bce92069cbab
+    slot: footer_first
+    uuid: 23ee7d03-7227-4558-a489-619b59be07e0
+    component_id: block.system_menu_block.social
+    component_version: 61f1f0168c94b6b6
+    inputs: '{"label":"Social","label_display":"0","level":1,"depth":null,"expand_all_items":false}'
+  '0:footer_last:0':
+    parent_uuid: b4ea9fb2-d3fc-428a-9114-bce92069cbab
+    slot: footer_last
+    uuid: 4bffe49a-041a-4120-bed4-3670026e2041
+    component_id: sdc.byte_theme.heading
+    component_version: 80684659bfb1ef65
+    inputs: '{"heading_text":"Stay up to date","text_color":"default","align":"left","text_size":"heading-responsive-2xl","level":2}'
+  '0:footer_last:1':
+    parent_uuid: b4ea9fb2-d3fc-428a-9114-bce92069cbab
+    slot: footer_last
+    uuid: 33b0c50f-4431-4684-9128-ae760159ef36
+    component_id: sdc.byte_theme.text
+    component_version: 21cbfe93d4622099
+    inputs: '{"text":{"value":"\u003Cp\u003ESubscribe to our newsletter to be the first to know about our latest updates, exclusive offers, and more.\u003C\/p\u003E","format":"canvas_html_block"},"text_size":"text-sm","text_color":"default"}'
+  '0:footer_last:2':
+    parent_uuid: b4ea9fb2-d3fc-428a-9114-bce92069cbab
+    slot: footer_last
+    uuid: 589290f2-3816-47c2-b5cf-44dbe05156ab
+    component_id: block.webform_block
+    component_version: 75298500addde82f
+    inputs: '{"label":"Webform","label_display":"0","webform_id":"newsletter_signup","default_data":"","redirect":false,"lazy":false}'
+  '0:footer_utility_first:0':
+    parent_uuid: b4ea9fb2-d3fc-428a-9114-bce92069cbab
+    slot: footer_utility_first
+    uuid: 4208772f-dd0d-4588-8ce2-8509ba22aadc
+    component_id: block.system_menu_block.footer
+    component_version: 68bdb40e1ac48125
+    inputs: '{"label":"Footer","label_display":"0","level":1,"depth":null,"expand_all_items":false}'
+  '0:footer_utility_last:0':
+    parent_uuid: b4ea9fb2-d3fc-428a-9114-bce92069cbab
+    slot: footer_utility_last
+    uuid: a606580b-bd8b-4576-b89e-b9f97ef72d91
+    component_id: sdc.byte_theme.text
+    component_version: 21cbfe93d4622099
+    inputs: '{"text":{"value":"\u003Cp\u003E\u00a9 Copyright 2026\u003C\/p\u003E","format":"canvas_html_block"},"text_size":"text-sm","text_color":"default"}'

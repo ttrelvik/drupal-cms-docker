@@ -1,0 +1,10 @@
+uuid: 689baf30-7ad9-4e4f-a826-5ee6b572d87b
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: 1PTw_ErrIEO0qT4X6G3QCbRnAnoKOpaqwQiAWHbisGg
+id: livechat
+label: 'Live chat'
+description: ''
+weight: 3

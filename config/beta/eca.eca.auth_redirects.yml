@@ -1,0 +1,34 @@
+uuid: ce87be7c-fe7f-424b-95b8-ece65b614ebf
+langcode: en
+status: true
+dependencies:
+  module:
+    - eca_user
+    - modeler_api
+third_party_settings:
+  modeler_api:
+    modeler_id: bpmn_io
+    label: 'Authentication redirects'
+_core:
+  default_config_hash: dio4fLnnVWCTUpgfUqGtkG_2RDEHiWE0dt8478NNOWI
+id: auth_redirects
+weight: 0
+template: null
+events:
+  user__logout:
+    plugin: 'user:logout'
+    label: 'User logout'
+    configuration: {  }
+    successors:
+      -
+        id: action_goto_action_login
+        condition: ''
+conditions: {  }
+gateways: {  }
+actions:
+  action_goto_action_login:
+    label: 'Back to login after logout'
+    plugin: action_goto_action
+    configuration:
+      url: /user/login
+    successors: {  }

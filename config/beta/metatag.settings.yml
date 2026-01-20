@@ -1,0 +1,11 @@
+entity_type_groups:
+  canvas_page:
+    canvas_page:
+      basic: basic
+separator: ''
+tag_trim_method: beforeValue
+use_maxlength: true
+tag_trim_maxlength: {  }
+tag_scroll_max_height: ''
+tag_trim_end: '|.,-:;/+&([{"'''
+trim_suffix: ''
