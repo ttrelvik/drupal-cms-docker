@@ -5,7 +5,7 @@ set -e
 if [ -z "$1" ]; then
   echo "Usage: ./restore.sh <stack_name> [path_to_backup_file]"
   echo "Examples:"
-  echo "  ./restore.sh drupal_dev"
+  echo "  ./restore.sh drupal-dev"
   echo "  ./restore.sh drupal ./backups/2023-10-27_10-00-00/drupal-backup.tar.gz"
   exit 1
 fi

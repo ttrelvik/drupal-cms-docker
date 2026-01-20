@@ -1,0 +1,105 @@
+# Stage 1: Build the application using a PHP base to ensure OS consistency.
+FROM php:8.3-fpm-bookworm AS builder
+
+# Set the working directory for the build.
+WORKDIR /app
+
+# Install system dependencies needed for Composer and its plugins.
+RUN apt-get update && apt-get install -y \
+    git \
+    unzip \
+    libzip-dev \
+    libpng-dev \
+    libjpeg-dev \
+    libwebp-dev \
+    libpq-dev
+
+# Install the required PHP extensions.
+RUN docker-php-ext-configure gd --with-jpeg --with-webp
+RUN docker-php-ext-install -j$(nproc) gd zip pgsql pdo_pgsql
+
+# Install Composer globally.
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+# Create the project files without installing dependencies to allow config modification.
+# We use --no-install to prevent the stability check from failing immediately.
+RUN composer create-project drupal/cms:2.0.0-rc1 . --no-install
+
+# Explicitly allow alpha-stability packages, as several core recipes are currently alpha.
+# We also set prefer-stable to true to ensure stable versions are used when available.
+RUN composer config minimum-stability alpha && \
+    composer config prefer-stable true
+
+# Now perform the initial installation of core dependencies.
+RUN composer install
+
+# NEW: Unpack the recipes into your composer.json as required for Drupal CMS 2.0.
+RUN composer drupal:recipe-unpack
+
+# Add your custom modules. 
+# Note: Ensure these versions are compatible with Drupal 11 / CMS 2.0.
+RUN composer require \
+    "drupal/samlauth:^3.13" \
+    "drush/drush:^13.7" \
+    "drupal/ai_vdb_provider_postgres:^1.0@alpha" \
+    "drupal/gemini_provider:^1.0@beta" \
+    "drupal/asset_injector:^2.21" \
+    "drupal/ai_summarize_document:^1.1" \
+    "drupal/ai_seo:^1.0" \
+    "drupal/metatag_ai:^1.0" \
+    --update-no-dev
+
+# Finalize and optimize the autoloader.
+RUN composer install --no-dev --optimize-autoloader
+
+# Stage 2: Build the production environment base.
+FROM php:8.3-fpm-bookworm AS drupal_app_base
+
+ENV PATH="/app/vendor/bin:$PATH"
+
+RUN apt-get update && apt-get install -y \
+    unzip \
+    rsync \
+    libzip-dev \
+    libpng-dev \
+    libjpeg-dev \
+    libwebp-dev \
+    libpq-dev \
+    nginx \
+    curl \
+    gnupg \
+    lsb-release && \
+    curl -sS https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmor -o /usr/share/keyrings/postgresql-archive-keyring.gpg && \
+    echo "deb [signed-by=/usr/share/keyrings/postgresql-archive-keyring.gpg] http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list && \
+    apt-get update && \
+    apt-get install -y postgresql-client-16
+
+RUN docker-php-ext-configure gd --with-jpeg --with-webp
+RUN docker-php-ext-install -j$(nproc) gd zip pdo pdo_pgsql pgsql opcache
+
+RUN echo "memory_limit = 512M" > /usr/local/etc/php/conf.d/memory-limit.ini
+
+WORKDIR /app
+
+# Stage 3: Build the final image.
+FROM drupal_app_base AS final
+
+# Copy the fully built Drupal application from the 'builder' stage.
+COPY --from=builder /app .
+
+# Copy custom configurations and scripts.
+COPY .docker/nginx/default.conf /etc/nginx/sites-available/default
+COPY .docker/entrypoint.sh /usr/local/bin/entrypoint.sh
+COPY .docker/drupal/settings.local.php /app/settings.local.php
+COPY config /app/config
+COPY deploy.sh /app/deploy.sh
+RUN chmod +x /app/deploy.sh /usr/local/bin/entrypoint.sh
+
+# Prepare settings.php inclusion logic.
+RUN sed -i "/# if (file_exists(\$app_root . '\/' . \$site_path . '\/settings.local.php'))/,+2s/^# //" /app/web/sites/default/default.settings.php
+
+RUN chown -R www-data:www-data /app/web/sites
+
+EXPOSE 80
+
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
