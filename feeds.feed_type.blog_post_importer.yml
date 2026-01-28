@@ -1,0 +1,68 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_content
+    - field.storage.node.field_featured_image
+    - node.type.blog
+id: blog_post_importer
+label: 'Blog Post Importer'
+description: 'Automated import of production blog posts.'
+help: ''
+import_period: -1
+fetcher: upload
+fetcher_configuration: {  }
+parser: csv
+parser_configuration:
+  delimiter: ','
+  no_headers: false
+  line_limit: 100
+processor: 'entity:node'
+processor_configuration:
+  values:
+    type: blog
+  langcode: en
+  insert_new: 1
+  update_existing: 2
+  update_non_existent: _keep
+  skip_hash_check: false
+  authorize: true
+  revision: false
+  expire: -1
+  owner_id: 1
+  owner_feed_author: false
+custom_sources:
+  title:
+    label: title
+    value: title
+    machine_name: title
+  content:
+    label: content
+    value: content
+    machine_name: content
+  image_url:
+    label: image_url
+    value: image_url
+    machine_name: image_url
+  url_alias:
+    label: url_alias
+    value: url_alias
+    machine_name: url_alias
+  authored_on:
+    label: authored_on
+    value: authored_on
+    machine_name: authored_on
+mappings:
+  - target: title
+    map: { value: title }
+    unique: {  }
+  - target: field_content
+    map: { value: content }
+    settings: { format: full_html }
+  - target: field_featured_image
+    map: { target_id: image_url }
+    settings: { reference_by: url, existing_file: '1', rename: '0', download: '1' }
+  - target: path
+    map: { alias: url_alias }
+  - target: created
+    map: { value: authored_on }

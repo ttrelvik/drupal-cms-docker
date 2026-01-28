@@ -1,0 +1,63 @@
+services:
+  drupal_cms:
+    image: ttrelvik/drupal-cms:2.0.0-1
+    volumes:
+      - drupal_sites_default_v2:/app/web/sites/default
+      - ./config/v2:/app/config/v2
+    secrets:
+      - source: drupal_cms_v2_postgres_password
+        target: drupal_cms-postgres_password
+      - gemini_api_key
+      - openai_api_key
+    env_file:
+      - v2.env
+    depends_on:
+      - db
+    networks:
+      - drupal_net_v2
+      - traefik-net
+    deploy:
+      replicas: 1
+      labels:
+        - "traefik.enable=true"
+        - "traefik.swarm.network=traefik-net"
+        - "traefik.http.routers.drupal_cms_v2.rule=Host(`v2-blog.trelvik.net`)"
+        - "traefik.http.routers.drupal_cms_v2.entrypoints=https"
+        - "traefik.http.routers.drupal_cms_v2.tls=true"
+        - "traefik.http.routers.drupal_cms_v2.tls.certresolver=myresolver"
+        - "traefik.http.services.drupal_cms_v2.loadbalancer.server.port=80"
+
+  db:
+    image: pgvector/pgvector:0.8.1-pg16-trixie
+    volumes:
+      - postgres_data_v2:/var/lib/postgresql/data
+      - ./.docker/pg-init:/docker-entrypoint-initdb.d
+    secrets:
+      - source: drupal_cms_v2_postgres_password
+        target: drupal_cms-postgres_password
+    env_file:
+      - v2.env
+    networks:
+      - drupal_net_v2
+    deploy:
+      replicas: 1
+
+volumes:
+  drupal_sites_default_v2:
+    name: drupal-cms-docker_drupal_sites_default_v2
+  postgres_data_v2:
+    name: drupal-cms-docker_postgres_data_v2
+
+secrets:
+  drupal_cms_v2_postgres_password:
+    external: true
+  gemini_api_key:
+    external: true
+  openai_api_key:
+    external: true
+
+networks:
+  drupal_net_v2:
+    driver: overlay
+  traefik-net:
+    external: true

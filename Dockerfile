@@ -37,6 +37,7 @@ RUN composer require \
     "drupal/ai_summarize_document:^1.1" \
     "drupal/ai_seo:^1.0" \
     "drupal/metatag_ai:^1.0" \
+    "drupal/views_data_export:^1.8" \
     --update-no-dev --no-install
 
 # Now install all dependencies without dev packages and optimize the autoloader.

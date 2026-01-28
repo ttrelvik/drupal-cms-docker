@@ -23,7 +23,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Create the project files without installing dependencies to allow config modification.
 # We use --no-install to prevent the stability check from failing immediately.
-RUN composer create-project drupal/cms:2.0.0-rc1 . --no-install
+RUN composer create-project drupal/cms:2.0.0 . --no-install
 
 # Explicitly allow alpha-stability packages, as several core recipes are currently alpha.
 # We also set prefer-stable to true to ensure stable versions are used when available.
@@ -47,6 +47,7 @@ RUN composer require \
     "drupal/ai_summarize_document:^1.1" \
     "drupal/ai_seo:^1.0" \
     "drupal/metatag_ai:^1.0" \
+    "drupal/feeds:^3.2" \
     --update-no-dev
 
 # Finalize and optimize the autoloader.
