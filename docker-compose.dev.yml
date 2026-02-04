@@ -2,7 +2,7 @@ services:
   drupal_cms:
     # Use the custom Drupal CMS image with pre-installed dependencies
     # pulled from Docker Hub:
-    image: ttrelvik/drupal-cms:1.2.x-19
+    image: ttrelvik/drupal-core:alpha2
     volumes:
       # Mount the entire sites/default directory for persistence
       - drupal_sites_default:/app/web/sites/default
@@ -15,11 +15,11 @@ services:
       - openai_api_key
     # Use .env file for non-sensitive environment variables
     env_file:
-      - dev.env                                       # use dev.env for dev
+      - dev.env # use dev.env for dev
     depends_on:
       - db
     networks:
-      - drupal_net_dev                                # renamed for dev
+      - drupal_net_dev # renamed for dev
       - traefik-net
     deploy:
       replicas: 1
@@ -30,11 +30,10 @@ services:
         # Main router for Drupal CMS primary domain
         # Note: ${DOMAIN} variable substitution doesn't work in Swarm labels - hardcode your domain
         - "traefik.http.routers.drupal_cms_dev.rule=Host(`dev-blog.trelvik.net`)" # renamed for dev
-        - "traefik.http.routers.drupal_cms_dev.entrypoints=https"                 # renamed for dev
-        - "traefik.http.routers.drupal_cms_dev.tls=true"                          # renamed for dev
-        - "traefik.http.routers.drupal_cms_dev.tls.certresolver=myresolver"       # renamed for dev
-        - "traefik.http.services.drupal_cms_dev.loadbalancer.server.port=80"      # renamed for dev
-
+        - "traefik.http.routers.drupal_cms_dev.entrypoints=https" # renamed for dev
+        - "traefik.http.routers.drupal_cms_dev.tls=true" # renamed for dev
+        - "traefik.http.routers.drupal_cms_dev.tls.certresolver=myresolver" # renamed for dev
+        - "traefik.http.services.drupal_cms_dev.loadbalancer.server.port=80" # renamed for dev
         ### Commented out for dev: ###
         # # --- Dynamic Redirect Router using .env variables ---
         # # Note: ${REDIRECT_HOSTNAME} and ${DOMAIN} must be hardcoded in Swarm mode:
@@ -59,17 +58,17 @@ services:
         target: drupal_cms-postgres_password
     # Use .env file for non-sensitive environment variables
     env_file:
-      - dev.env                                       # use dev.env for dev
+      - dev.env # use dev.env for dev
     networks:
-      - drupal_net_dev                                # renamed for dev
+      - drupal_net_dev # renamed for dev
     deploy:
       replicas: 1
 
 volumes:
   drupal_sites_default:
-    name: drupal-cms-docker_drupal_sites_default_dev  # renamed for dev
+    name: drupal-cms-docker_drupal_sites_default_dev # renamed for dev
   postgres_data:
-    name: drupal-cms-docker_postgres_data_dev         # renamed for dev
+    name: drupal-cms-docker_postgres_data_dev # renamed for dev
 
 secrets:
   drupal_cms-dev_postgres_password:
@@ -80,7 +79,8 @@ secrets:
     external: true
 
 networks:
-  drupal_net_dev:                                     # renamed for dev
+  drupal_net_dev:
+    # renamed for dev
     driver: overlay
   # Use the existing traefik-net (external)
   traefik-net:

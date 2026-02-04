@@ -22,22 +22,65 @@ RUN docker-php-ext-install -j$(nproc) gd zip pgsql pdo_pgsql
 # Install Composer globally.
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Create the project, but do not install dependencies yet.
-# The --no-install flag is key to preventing a premature lock file.
-# PIN to 1.2.8 to bypass a broken metadata issue in 1.2.9 and 1.2.10
-RUN composer create-project drupal/cms:^1.2.8 . --no-install
+# Create the project using the recommended project template.
+# This aligns with the "Maintainable Core" strategy.
+RUN composer create-project drupal/recommended-project:^11 . --no-install
 
-# Add required Drupal modules via Composer without installing yet.
+# Add all enabled modules and dependencies.
 RUN composer require \
-    "drupal/samlauth:^3.13" \
-    "drush/drush:^13.7" \
-    "drupal/ai_vdb_provider_postgres:^1.0@alpha" \
-    "drupal/gemini_provider:^1.0@beta" \
-    "drupal/asset_injector:^2.21" \
-    "drupal/ai_summarize_document:^1.1" \
+    "drush/drush:^13" \
+    "drupal/admin_toolbar:^3.4" \
+    "drupal/add_content_by_bundle:^1.2" \
+    "drupal/ai:^1.2" \
+    "drupal/ai_agents:^1.2" \
+    "drupal/ai_image_alt_text:^1.0" \
+    "drupal/ai_provider_openai:^1.2" \
     "drupal/ai_seo:^1.0" \
-    "drupal/metatag_ai:^1.0" \
-    "drupal/views_data_export:^1.8" \
+    "drupal/ai_summarize_document:^1.1" \
+    "drupal/ai_vdb_provider_postgres:^1.0@alpha" \
+    "drupal/automatic_updates:^4.1" \
+    "drupal/autosave_form:^1.10" \
+    "drupal/better_exposed_filters:^7.1" \
+    "drupal/bpmn_io:^2.0" \
+    "drupal/captcha:^2.0" \
+    "drupal/coffee:^2.0" \
+    "drupal/crop:^2.5" \
+    "drupal/dashboard:^2.2" \
+    "drupal/drupal_cms_helper:^1.2" \
+    "drupal/easy_breadcrumb:^2.0" \
+    "drupal/easy_email:^3.0" \
+    "drupal/eca:^2.1" \
+    "drupal/focal_point:^2.1" \
+    "drupal/friendlycaptcha:^1.1" \
+    "drupal/gemini_provider:^1.0@beta" \
+    "drupal/gin_toolbar:^3.0" \
+    "drupal/honeypot:^2.2" \
+    "drupal/jquery_ui:^1.8" \
+    "drupal/jquery_ui_resizable:^2.1" \
+    "drupal/key:^1.22" \
+    "drupal/klaro:^3.0" \
+    "drupal/linkit:^7.0" \
+    "drupal/login_emailusername:^3.0" \
+    "drupal/mailsystem:^4.5" \
+    "drupal/menu_link_attributes:^1.6" \
+    "drupal/metatag:^2.2" \
+    "drupal/modeler_api:^1.0" \
+    "drupal/pathauto:^1.14" \
+    "drupal/project_browser:^2.1" \
+    "drupal/redirect:^1.12" \
+    "drupal/sam:^1.3" \
+    "drupal/scheduler:^2.2" \
+    "drupal/scheduler_content_moderation_integration:^3.0" \
+    "drupal/search_api:^1.40" \
+    "drupal/selective_better_exposed_filters:^3.0" \
+    "drupal/svg_image:^3.2" \
+    "drupal/symfony_mailer_lite:^2.0" \
+    "drupal/tagify:^1.2" \
+    "drupal/token:^1.17" \
+    "drupal/trash:^3.0" \
+    "drupal/drupal_cms_olivero:^1.2" \
+    "drupal/easy_email_theme:^1.1" \
+    "drupal/gin:^5.0" \
     --update-no-dev --no-install
 
 # Now install all dependencies without dev packages and optimize the autoloader.
