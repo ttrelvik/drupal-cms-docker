@@ -1,16 +1,16 @@
 services:
-  drupal_cms:
+  drupal:
     # Use the custom Drupal CMS image with pre-installed dependencies
     # pulled from Docker Hub:
-    image: ttrelvik/drupal-core:alpha2
+    image: ttrelvik/drupal-core:alpha3
     volumes:
       # Mount the entire sites/default directory for persistence
-      - drupal_sites_default:/app/web/sites/default
+      - sites_default:/app/web/sites/default
       # Mount SAML certificates
       # - ./secrets/saml:/etc/ssl/private             # Disabled for dev
     secrets:
-      - source: drupal_cms-dev_postgres_password
-        target: drupal_cms-postgres_password
+      - source: drupal-dev_postgres_password
+        target: drupal_postgres_password
       - gemini_api_key
       - openai_api_key
     # Use .env file for non-sensitive environment variables
@@ -29,11 +29,11 @@ services:
 
         # Main router for Drupal CMS primary domain
         # Note: ${DOMAIN} variable substitution doesn't work in Swarm labels - hardcode your domain
-        - "traefik.http.routers.drupal_cms_dev.rule=Host(`dev-blog.trelvik.net`)" # renamed for dev
-        - "traefik.http.routers.drupal_cms_dev.entrypoints=https" # renamed for dev
-        - "traefik.http.routers.drupal_cms_dev.tls=true" # renamed for dev
-        - "traefik.http.routers.drupal_cms_dev.tls.certresolver=myresolver" # renamed for dev
-        - "traefik.http.services.drupal_cms_dev.loadbalancer.server.port=80" # renamed for dev
+        - "traefik.http.routers.drupal_dev.rule=Host(`dev-blog.trelvik.net`)" # renamed for dev
+        - "traefik.http.routers.drupal_dev.entrypoints=https" # renamed for dev
+        - "traefik.http.routers.drupal_dev.tls=true" # renamed for dev
+        - "traefik.http.routers.drupal_dev.tls.certresolver=myresolver" # renamed for dev
+        - "traefik.http.services.drupal_dev.loadbalancer.server.port=80" # renamed for dev
         ### Commented out for dev: ###
         # # --- Dynamic Redirect Router using .env variables ---
         # # Note: ${REDIRECT_HOSTNAME} and ${DOMAIN} must be hardcoded in Swarm mode:
@@ -50,12 +50,12 @@ services:
   db:
     image: pgvector/pgvector:0.8.1-pg16-trixie
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - db_data:/var/lib/postgresql/data
       # Init script for pgvector to create extension on DB creation
       - ./.docker/pg-init:/docker-entrypoint-initdb.d
     secrets:
-      - source: drupal_cms-dev_postgres_password
-        target: drupal_cms-postgres_password
+      - source: drupal-dev_postgres_password
+        target: drupal_postgres_password
     # Use .env file for non-sensitive environment variables
     env_file:
       - dev.env # use dev.env for dev
@@ -65,13 +65,12 @@ services:
       replicas: 1
 
 volumes:
-  drupal_sites_default:
-    name: drupal-cms-docker_drupal_sites_default_dev # renamed for dev
-  postgres_data:
-    name: drupal-cms-docker_postgres_data_dev # renamed for dev
+  sites_default:
+  db_data:
+
 
 secrets:
-  drupal_cms-dev_postgres_password:
+  drupal-dev_postgres_password:
     external: true
   gemini_api_key:
     external: true
