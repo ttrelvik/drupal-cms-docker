@@ -1,6 +1,6 @@
-# Drupal CMS Docker Project
+# Drupal Docker Project
 
-This project builds a **production-ready, CI/CD-friendly Docker image** for Tom Trelvik's Drupal CMS portfolio site. It is designed to run in a **Docker Swarm** environment with **Traefik** as the ingress controller.
+This project builds a **production-ready, CI/CD-friendly Docker image** for Tom Trelvik's Drupal portfolio site. It is designed to run in a **Docker Swarm** environment with **Traefik** as the ingress controller.
 
 ## ✅ Architecture
 
@@ -84,11 +84,19 @@ Restores a backup tarball to a specified stack (e.g., refreshing Dev with Prod d
 ./restore.sh drupal-dev
 ```
 
-### `deploy.sh` (Post-Deployment)
-Helper script meant to run **inside the container** (or via `docker exec`) to finalize a deployment.
-- Imports configuration (`drush cim`).
-- Clears caches (`drush cr`).
-- Re-indexes search content.
+### `deploy.sh` (Deployment & AI Initialization)
+**CRITICAL**: This script must be run inside the Drupal container after a fresh deployment. It handles logic that cannot be static in the image.
+
+**What it does:**
+1.  **Config Import**: Syncs the database with the `config/` directory.
+2.  **AI Domain Patching**: Updates the AI Assistant's system prompt to use the correct domain (e.g., changing `dev-blog` -> `blog`) so that cited links work for the user.
+3.  **RAG Indexing**: Triggers `drush search-api:index` to generate vector embeddings for your content. Without this, the AI cannot "read" your blog posts.
+
+**When to run it:**
+- Immediately after checking out/deploying a new stack.
+- After importing a database backup (to re-sync config).
+- When you notice the AI is unaware of new content.
+
 ```bash
 docker exec -it [container_id] /app/deploy.sh
 ```
