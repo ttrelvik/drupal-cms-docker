@@ -136,7 +136,7 @@ COPY --from=builder /app .
 COPY .docker/nginx/default.conf /etc/nginx/sites-available/default
 COPY .docker/entrypoint.sh /usr/local/bin/entrypoint.sh
 COPY .docker/drupal/settings.local.php /app/settings.local.php
-COPY config /app/config
+COPY config /app/config/sync
 COPY deploy.sh /app/deploy.sh
 RUN chmod +x /app/deploy.sh /usr/local/bin/entrypoint.sh
 

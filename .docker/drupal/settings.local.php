@@ -76,5 +76,9 @@ $trusted_proxy_cidr = getenv('TRUSTED_PROXY_CIDR') ?: '127.0.0.1';
 
 $settings['reverse_proxy_addresses'] = [$trusted_proxy_cidr];
 $settings['reverse_proxy'] = TRUE;
-# Indicate which headers should be used to detect the original client IP and protocol.
+// Indicate which headers should be used to detect the original client IP and protocol.
 $settings['reverse_proxy_trusted_headers'] = \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_PROTO | \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_FOR;
+
+// --- Guzzle HTTP Client Settings ---
+// Force IPv4 to avoid Docker IPv6 timeout issues interacting with OpenAI.
+$settings['http_client_config']['force_ip_resolve'] = 'v4';
